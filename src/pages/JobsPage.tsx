@@ -14,7 +14,7 @@ const JobsPage = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
-  // Initialize filters from URL params
+  // Initialize filters from URL params - optimized with useEffect dependencies
   useEffect(() => {
     const category = searchParams.get('category');
     if (category) {
@@ -32,7 +32,7 @@ const JobsPage = () => {
     }
   }, [searchParams]);
 
-  // Memoize filtered jobs to avoid unnecessary recalculations
+  // Memoize filtered jobs for better performance
   const filteredJobs = useMemo(() => {
     let results = [...jobs];
     
@@ -63,7 +63,7 @@ const JobsPage = () => {
     return results;
   }, [searchTerm, selectedCategories, selectedTypes]);
 
-  // Update URL params when filters change
+  // Update URL params when filters change - optimized with useEffect dependencies
   useEffect(() => {
     const params = new URLSearchParams();
     if (searchTerm) params.set('q', searchTerm);
@@ -72,7 +72,7 @@ const JobsPage = () => {
     setSearchParams(params);
   }, [searchTerm, selectedCategories, selectedTypes, setSearchParams]);
 
-  // Memoize event handlers
+  // Memoized event handlers
   const handleSearch = useCallback((term: string) => {
     setSearchTerm(term);
   }, []);
@@ -97,20 +97,20 @@ const JobsPage = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      {/* Search Bar Section */}
-      <section className="bg-gray-50 py-6 sm:py-8">
+      {/* Search Bar Section - Optimized for mobile */}
+      <section className="bg-gray-50 py-4 sm:py-6">
         <div className="container mx-auto px-4">
-          <h1 className="font-prompt text-2xl sm:text-3xl font-bold text-center mb-4 sm:mb-6">
+          <h1 className="font-prompt text-xl sm:text-2xl font-bold text-center mb-3 sm:mb-4">
             ค้นหางาน
           </h1>
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar onSearch={handleSearch} initialValue={searchTerm} />
         </div>
       </section>
       
-      {/* Main Content */}
-      <section className="py-6 sm:py-10 flex-grow">
+      {/* Main Content - Better mobile layout */}
+      <section className="py-4 sm:py-6 flex-grow">
         <div className="container mx-auto px-4">
-          <div className="lg:hidden mb-4">
+          <div className="lg:hidden mb-3">
             <FilterPanel 
               selectedCategories={selectedCategories}
               selectedTypes={selectedTypes}
@@ -119,7 +119,7 @@ const JobsPage = () => {
             />
           </div>
           
-          <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
             {/* Filter Sidebar - Desktop Only */}
             <div className="hidden lg:block w-1/4 lg:w-1/5">
               <FilterPanel 
@@ -132,21 +132,21 @@ const JobsPage = () => {
             
             {/* Job Listings */}
             <div className="w-full lg:w-3/4 lg:w-4/5">
-              <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-5 mb-6">
-                <h2 className="text-lg font-medium mb-1">ผลการค้นหา</h2>
+              <div className="bg-white rounded-lg shadow-sm border p-3 sm:p-4 mb-4">
+                <h2 className="text-base font-medium mb-1">ผลการค้นหา</h2>
                 <p className="text-gray-500 text-sm">พบ {filteredJobs.length} ตำแหน่งงาน</p>
               </div>
               
               {filteredJobs.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   {filteredJobs.map(job => (
                     <JobCard key={job.id} job={job} />
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 sm:py-16 bg-white rounded-lg shadow-sm">
-                  <h3 className="text-xl font-medium mb-2">ไม่พบตำแหน่งงานที่ตรงกับเงื่อนไข</h3>
-                  <p className="text-gray-500">
+                <div className="text-center py-8 sm:py-12 bg-white rounded-lg shadow-sm">
+                  <h3 className="text-lg font-medium mb-2">ไม่พบตำแหน่งงานที่ตรงกับเงื่อนไข</h3>
+                  <p className="text-gray-500 text-sm">
                     ลองเปลี่ยนคำค้นหาหรือตัวกรองเพื่อดูผลลัพธ์เพิ่มเติม
                   </p>
                 </div>
