@@ -24,7 +24,7 @@ const JobDetailPage = () => {
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center p-8">
-            <h1 className="font-prompt text-2xl font-semibold mb-4">ไม่พบประกาศงาน</h1>
+            <h1 className="font-prompt text-xl sm:text-2xl font-semibold mb-4">ไม่พบประกาศงาน</h1>
             <p className="text-gray-500 mb-6">อาจถูกลบหรือเปลี่ยนแปลงแล้ว</p>
             <Button onClick={() => navigate(-1)}>กลับไปยังหน้าก่อนหน้า</Button>
           </div>
@@ -50,8 +50,8 @@ const JobDetailPage = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
+      <div className="container mx-auto px-4 py-6 md:py-8 flex-grow">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {/* Main Content */}
           <div className="w-full md:w-2/3">
             <div className="mb-6">
@@ -59,17 +59,18 @@ const JobDetailPage = () => {
                 variant="ghost"
                 onClick={() => navigate(-1)}
                 className="mb-4 pl-0 text-gray-500 hover:text-wang-blue"
+                size="sm"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                ย้อนกลับไปยังผลการค้นหา
+                ย้อนกลับ
               </Button>
               
-              <div className="flex items-start justify-between">
-                <div>
-                  <h1 className="font-prompt text-3xl font-bold text-gray-900 mb-2">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+                <div className="mb-4 sm:mb-0 sm:mr-4">
+                  <h1 className="font-prompt text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                     {job.titleThai || job.title}
                   </h1>
-                  <p className="text-xl text-gray-700 mb-2">
+                  <p className="text-lg md:text-xl text-gray-700 mb-2">
                     {job.company}
                   </p>
                   <p className="text-gray-600 mb-4">
@@ -94,11 +95,12 @@ const JobDetailPage = () => {
                 </div>
                 
                 {job.companyLogo && (
-                  <div className="flex-shrink-0 hidden md:block">
+                  <div className="flex-shrink-0">
                     <img 
                       src={job.companyLogo} 
                       alt={job.company} 
-                      className="w-24 h-24 object-contain" 
+                      className="w-16 h-16 sm:w-24 sm:h-24 object-contain" 
+                      loading="lazy"
                     />
                   </div>
                 )}
@@ -109,10 +111,10 @@ const JobDetailPage = () => {
             
             {/* Job Description */}
             <div className="mb-8">
-              <h2 className="font-prompt text-xl font-semibold mb-4">
+              <h2 className="font-prompt text-lg md:text-xl font-semibold mb-4">
                 รายละเอียดงาน
               </h2>
-              <div className="prose max-w-none">
+              <div className="prose prose-sm sm:prose max-w-none">
                 <p className="mb-4 text-gray-700">
                   {job.descriptionThai || job.description}
                 </p>
@@ -121,7 +123,7 @@ const JobDetailPage = () => {
             
             {/* Job Requirements */}
             <div className="mb-8">
-              <h2 className="font-prompt text-xl font-semibold mb-4">
+              <h2 className="font-prompt text-lg md:text-xl font-semibold mb-4">
                 คุณสมบัติที่ต้องการ
               </h2>
               <ul className="space-y-3">
@@ -156,8 +158,8 @@ const JobDetailPage = () => {
           <div className="w-full md:w-1/3">
             <div className="sticky top-24">
               <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-prompt text-xl font-semibold mb-4">
+                <CardContent className="p-4 sm:p-6">
+                  <h3 className="font-prompt text-lg md:text-xl font-semibold mb-4">
                     สรุปงาน
                   </h3>
                   
@@ -190,7 +192,7 @@ const JobDetailPage = () => {
                     </div>
                   </div>
                   
-                  <div className="mt-8 space-y-3">
+                  <div className="mt-6 md:mt-8 space-y-3">
                     <Button 
                       onClick={handleApplyJob} 
                       className="w-full bg-wang-orange hover:bg-orange-600"
@@ -209,12 +211,12 @@ const JobDetailPage = () => {
                 </CardContent>
               </Card>
               
-              <Card className="mt-6">
-                <CardContent className="p-6">
+              <Card className="mt-4 md:mt-6">
+                <CardContent className="p-4 sm:p-6">
                   <h3 className="font-prompt font-semibold mb-3">
                     แชร์ตำแหน่งงานนี้
                   </h3>
-                  <div className="flex space-x-2">
+                  <div className="flex flex-wrap gap-2">
                     <Button variant="outline" size="sm">Facebook</Button>
                     <Button variant="outline" size="sm">LINE</Button>
                     <Button variant="outline" size="sm">อีเมล</Button>

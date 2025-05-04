@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
@@ -11,19 +11,19 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     onSearch(searchTerm);
-  };
+  }, [searchTerm, onSearch]);
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto">
-      <div className="flex w-full">
-        <div className="relative flex-grow shadow-sm">
+      <div className="flex w-full flex-col sm:flex-row">
+        <div className="relative flex-grow shadow-sm w-full sm:w-auto">
           <Input
             type="text"
             placeholder="ค้นหาตำแหน่งงาน, บริษัท หรือคำสำคัญ..."
-            className="w-full pl-4 pr-12 py-6 rounded-l-md border-r-0 focus-visible:ring-wang-orange"
+            className="w-full pl-4 pr-12 py-3 sm:py-6 rounded-md sm:rounded-l-md sm:rounded-r-none border-r-0 focus-visible:ring-wang-orange"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -33,7 +33,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         </div>
         <Button 
           type="submit" 
-          className="bg-wang-orange hover:bg-orange-600 text-white py-6 px-8 rounded-r-md shadow-sm"
+          className="bg-wang-orange hover:bg-orange-600 text-white py-3 px-6 sm:py-6 sm:px-8 mt-2 sm:mt-0 rounded-md sm:rounded-l-none sm:rounded-r-md shadow-sm w-full sm:w-auto"
         >
           ค้นหา
         </Button>
