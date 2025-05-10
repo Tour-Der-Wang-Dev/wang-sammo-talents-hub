@@ -6,7 +6,8 @@ import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
 import FilterPanel from '@/components/FilterPanel';
 import { jobs } from '@/data/jobs';
-import { SEO, generateJobListingSchema } from '@/utils/seo';
+import { generateJobListingSchema } from '@/utils/seo';
+import SEO from '@/components/SEO';
 
 const JobsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();

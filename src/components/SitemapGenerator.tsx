@@ -4,7 +4,7 @@ import { generateSitemap } from '@/utils/sitemap';
 
 const SitemapGenerator: React.FC = () => {
   useEffect(() => {
-    // Only run on the server or in development
+    // Only run on the client side and in development
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
       const baseUrl = window.location.origin;
       const sitemap = generateSitemap(baseUrl);

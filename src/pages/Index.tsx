@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -7,7 +6,8 @@ import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
 import { Button } from '@/components/ui/button';
 import { jobs } from '@/data/jobs';
-import { SEO, generateWebsiteSchema, generateJobListingSchema } from '@/utils/seo';
+import { generateWebsiteSchema, generateJobListingSchema } from '@/utils/seo';
+import SEO from '@/components/SEO';
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
