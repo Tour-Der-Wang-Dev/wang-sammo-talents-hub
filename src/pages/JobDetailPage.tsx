@@ -10,6 +10,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { jobs } from '@/data/jobs';
 import { toast } from 'sonner';
+import { SEO, generateJobPostingSchema } from '@/utils/seo';
 
 const JobDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,10 @@ const JobDetailPage = () => {
   if (!job) {
     return (
       <div className="min-h-screen flex flex-col">
+        <SEO 
+          title="ไม่พบประกาศงาน"
+          description="ไม่พบตำแหน่งงานที่คุณกำลังค้นหา อาจถูกลบหรือเปลี่ยนแปลงแล้ว"
+        />
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center p-8">
@@ -46,8 +51,17 @@ const JobDetailPage = () => {
     });
   };
 
+  // Generate job posting structured data
+  const structuredData = generateJobPostingSchema(job);
+
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title={job.titleThai || job.title}
+        description={job.descriptionThai?.substring(0, 160) || job.description.substring(0, 160)}
+        structuredData={structuredData}
+        ogImage={job.companyLogo || 'https://lovable.dev/opengraph-image-p98pqg.png'}
+      />
       <Header />
       
       <div className="container mx-auto px-4 py-6 md:py-8 flex-grow">

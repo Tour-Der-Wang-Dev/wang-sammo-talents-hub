@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -7,6 +6,7 @@ import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
 import FilterPanel from '@/components/FilterPanel';
 import { jobs } from '@/data/jobs';
+import { SEO, generateJobListingSchema } from '@/utils/seo';
 
 const JobsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -93,8 +93,37 @@ const JobsPage = () => {
     }
   }, []);
 
+  // Generate page title based on search parameters
+  const generatePageTitle = useCallback(() => {
+    const parts = [];
+    
+    if (searchTerm) {
+      parts.push(`"${searchTerm}"`);
+    }
+    
+    if (selectedCategories.length > 0) {
+      parts.push(selectedCategories.join(', '));
+    }
+    
+    if (selectedTypes.length > 0) {
+      parts.push(selectedTypes.join(', '));
+    }
+    
+    return parts.length > 0 
+      ? `งานในกลุ่ม ${parts.join(' ')}` 
+      : 'ค้นหางานทั้งหมด';
+  }, [searchTerm, selectedCategories, selectedTypes]);
+
+  // Structured data for job listings
+  const structuredData = generateJobListingSchema(filteredJobs);
+
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title={generatePageTitle()}
+        description={`ค้นหางานในวังสามหมอ${searchTerm ? ' สำหรับ ' + searchTerm : ''} - พบ ${filteredJobs.length} ตำแหน่งงาน`}
+        structuredData={structuredData}
+      />
       <Header />
       
       {/* Search Bar Section - Optimized for mobile */}

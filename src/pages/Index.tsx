@@ -7,6 +7,7 @@ import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
 import { Button } from '@/components/ui/button';
 import { jobs } from '@/data/jobs';
+import { SEO, generateWebsiteSchema, generateJobListingSchema } from '@/utils/seo';
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -31,8 +32,19 @@ const Index = () => {
     navigate(`/jobs?q=${encodeURIComponent(term)}`);
   }, [navigate]);
 
+  // Structured data for the home page
+  const structuredData = [
+    generateWebsiteSchema(),
+    generateJobListingSchema(recentJobs)
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title="หน้าแรก"
+        description="แหล่งรวมตำแหน่งงานในพื้นที่วังสามหมอและบริเวณใกล้เคียง เชื่อมต่อคนหางานกับนายจ้างในภาคการท่องเที่ยวและบริการ"
+        structuredData={structuredData}
+      />
       <Header />
       
       {/* Hero Section - Improved for mobile */}
