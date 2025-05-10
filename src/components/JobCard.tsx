@@ -11,7 +11,7 @@ interface JobCardProps {
 
 const JobCard: React.FC<JobCardProps> = ({ job }) => {
   return (
-    <Link to={`/job/${job.id}`} className="block h-full transition-transform hover:scale-[1.01] focus-visible:outline-wang-blue" aria-label={`งาน ${job.titleThai || job.title} ที่ ${job.company}`}>
+    <Link to={`/job/${job.id}`} className="block h-full transition-transform hover:scale-[1.01] active:scale-[0.99] focus-visible:outline-wang-blue touch-manipulation" aria-label={`งาน ${job.titleThai || job.title} ที่ ${job.company}`}>
       <Card className="h-full job-card overflow-hidden border border-gray-200 hover:shadow-md transition-shadow duration-200">
         {job.isHot && (
           <div className="bg-wang-orange text-white text-xs font-prompt py-1 px-3 text-center">

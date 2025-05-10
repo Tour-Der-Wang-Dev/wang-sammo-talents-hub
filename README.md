@@ -1,73 +1,41 @@
-# Welcome to your Lovable project
 
-## Project info
+# ที่นี่ วังสามหมอ Job Board
 
-**URL**: https://lovable.dev/projects/945a9cca-a22b-4185-a10b-1e77c6f3d15d
+## Project Overview
 
-## How can I edit this code?
+A modern job board application designed to connect job seekers with employment opportunities in Thailand's Wang Sam Mo region. The platform features a clean, mobile-responsive UI with Thai cultural elements and bilingual support.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- Job listing with search and filtering
+- Detailed job descriptions and company profiles
+- Mobile-responsive design
+- SEO optimized with structured data
+- Thai language support
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/945a9cca-a22b-4185-a10b-1e77c6f3d15d) and start prompting.
+## Documentation
 
-Changes made via Lovable will be committed automatically to this repo.
+For detailed documentation, please see:
 
-**Use your preferred IDE**
+- [Project Setup and Technologies](./docs/README.md)
+- [File Structure Explanation](./docs/filesExplainer.md)
+- [Available Scripts](./docs/scripts.md)
+- [System Architecture](./docs/systemDiagram.md)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Quick Start
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+# Install dependencies
+npm install
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Project URL
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Visit the live project at: https://lovable.dev/projects/945a9cca-a22b-4185-a10b-1e77c6f3d15d
 
-**Use GitHub Codespaces**
+## License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/945a9cca-a22b-4185-a10b-1e77c6f3d15d) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project is proprietary software. All rights reserved.

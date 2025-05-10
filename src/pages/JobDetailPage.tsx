@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Bookmark, Calendar, Check } from 'lucide-react';
@@ -10,7 +9,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { jobs } from '@/data/jobs';
 import { toast } from 'sonner';
-import { SEO, generateJobPostingSchema } from '@/utils/seo';
+import SEO from '@/components/SEO';
+import { generateJobPostingSchema } from '@/utils/seo';
 
 const JobDetailPage = () => {
   const { id } = useParams<{ id: string }>();

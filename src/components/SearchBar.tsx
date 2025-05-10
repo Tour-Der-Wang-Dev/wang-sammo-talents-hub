@@ -35,7 +35,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, initialValue = '' }) =>
         </div>
         <Button 
           type="submit" 
-          className="bg-wang-orange hover:bg-orange-600 text-white py-2 px-6 sm:py-3 sm:px-8 rounded-md shadow-sm w-full sm:w-auto"
+          className="bg-wang-orange hover:bg-orange-600 active:bg-orange-700 text-white py-2 px-6 sm:py-3 sm:px-8 rounded-md shadow-sm w-full sm:w-auto"
         >
           ค้นหา
         </Button>

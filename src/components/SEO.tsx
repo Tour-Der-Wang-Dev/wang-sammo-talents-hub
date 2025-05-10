@@ -17,7 +17,7 @@ interface SEOProps {
 /**
  * SEO component to manage dynamic metadata
  */
-export const SEO: React.FC<SEOProps> = ({
+const SEO: React.FC<SEOProps> = ({
   title,
   description,
   canonicalUrl,
