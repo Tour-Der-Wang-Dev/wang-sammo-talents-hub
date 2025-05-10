@@ -3,6 +3,33 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Search, Menu, X } from 'lucide-react';
+import NavigationMenu from './NavigationMenu';
+
+const navigationSections = [
+  {
+    title: 'Job Seeker',
+    links: [
+      { text: 'ค้นหางาน', href: '/jobs' },
+      { text: 'สร้างโปรไฟล์', href: '/profile' },
+    ],
+  },
+  {
+    title: 'Employers',
+    links: [
+      { text: 'ลงประกาศงาน', href: '/post-job' },
+      { text: 'ราคาและแพ็คเกจ', href: '/pricing' },
+    ],
+  },
+  {
+    title: 'About',
+    links: [
+      { text: 'เกี่ยวกับเรา', href: '/about' },
+      { text: 'ติดต่อเรา', href: '/contact' },
+      { text: 'นโยบายความเป็นส่วนตัว', href: '/privacy' },
+      { text: 'ข้อกำหนดการใช้งาน', href: '/terms' },
+    ],
+  },
+];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,21 +76,19 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
+          {/* Desktop Navigation with Navigation Menu */}
+          <div className="hidden md:flex items-center space-x-6">
             <Link to="/" className={`font-prompt text-gray-700 hover:text-wang-orange transition-colors ${location.pathname === '/' ? 'text-wang-orange font-semibold' : ''}`}>
               หน้าแรก
             </Link>
             <Link to="/jobs" className={`font-prompt text-gray-700 hover:text-wang-orange transition-colors ${location.pathname === '/jobs' ? 'text-wang-orange font-semibold' : ''}`}>
               ตำแหน่งงาน
             </Link>
-            <Link to="/companies" className="font-prompt text-gray-700 hover:text-wang-orange transition-colors">
+            <Link to="/companies" className={`font-prompt text-gray-700 hover:text-wang-orange transition-colors ${location.pathname === '/companies' ? 'text-wang-orange font-semibold' : ''}`}>
               บริษัท
             </Link>
-            <Link to="/about" className="font-prompt text-gray-700 hover:text-wang-orange transition-colors">
-              เกี่ยวกับเรา
-            </Link>
-          </nav>
+            <NavigationMenu sections={navigationSections} />
+          </div>
 
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="outline" className="font-prompt">
@@ -84,7 +109,7 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation with Navigation Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 py-4 animate-fade-in border-t">
             <nav className="flex flex-col space-y-4">
@@ -102,17 +127,16 @@ const Header = () => {
               </Link>
               <Link 
                 to="/companies" 
-                className="font-prompt text-gray-700 hover:text-wang-orange transition-colors py-2"
+                className={`font-prompt text-gray-700 hover:text-wang-orange transition-colors py-2 ${location.pathname === '/companies' ? 'text-wang-orange font-semibold' : ''}`}
               >
                 บริษัท
               </Link>
-              <Link 
-                to="/about" 
-                className="font-prompt text-gray-700 hover:text-wang-orange transition-colors py-2"
-              >
-                เกี่ยวกับเรา
-              </Link>
             </nav>
+            
+            <div className="mt-4 pt-4 border-t">
+              <NavigationMenu sections={navigationSections} />
+            </div>
+            
             <div className="flex flex-col space-y-3 mt-4 pt-4 border-t">
               <Button variant="outline" className="font-prompt">
                 เข้าสู่ระบบ
