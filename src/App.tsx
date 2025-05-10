@@ -13,6 +13,7 @@ import SitemapGenerator from './components/SitemapGenerator';
 const Index = lazy(() => import("./pages/Index" /* webpackChunkName: "index-page" */));
 const JobsPage = lazy(() => import("./pages/JobsPage" /* webpackChunkName: "jobs-page" */));
 const JobDetailPage = lazy(() => import("./pages/JobDetailPage" /* webpackChunkName: "job-detail-page" */));
+const SettingsPage = lazy(() => import("./pages/SettingsPage" /* webpackChunkName: "settings-page" */));
 const NotFound = lazy(() => import("./pages/NotFound" /* webpackChunkName: "not-found-page" */));
 
 // Improved loading component with better visual feedback
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/jobs" element={<JobsPage />} />
               <Route path="/job/:id" element={<JobDetailPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
