@@ -2,34 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Search, Menu, X } from 'lucide-react';
-import NavigationMenu from './NavigationMenu';
-
-const navigationSections = [
-  {
-    title: 'Job Seeker',
-    links: [
-      { text: 'ค้นหางาน', href: '/jobs' },
-      { text: 'สร้างโปรไฟล์', href: '/profile' },
-    ],
-  },
-  {
-    title: 'Employers',
-    links: [
-      { text: 'ลงประกาศงาน', href: '/post-job' },
-      { text: 'ราคาและแพ็คเกจ', href: '/pricing' },
-    ],
-  },
-  {
-    title: 'About',
-    links: [
-      { text: 'เกี่ยวกับเรา', href: '/about' },
-      { text: 'ติดต่อเรา', href: '/contact' },
-      { text: 'นโยบายความเป็นส่วนตัว', href: '/privacy' },
-      { text: 'ข้อกำหนดการใช้งาน', href: '/terms' },
-    ],
-  },
-];
+import { Search, Menu, X, LogIn } from 'lucide-react';
+import SiteNavigation from './SiteNavigation';
+import { navigationStructure } from '@/data/navigation';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,7 +51,7 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation with Navigation Menu */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/" className={`font-prompt text-gray-700 hover:text-wang-orange transition-colors ${location.pathname === '/' ? 'text-wang-orange font-semibold' : ''}`}>
               หน้าแรก
@@ -87,11 +62,12 @@ const Header = () => {
             <Link to="/companies" className={`font-prompt text-gray-700 hover:text-wang-orange transition-colors ${location.pathname === '/companies' ? 'text-wang-orange font-semibold' : ''}`}>
               บริษัท
             </Link>
-            <NavigationMenu sections={navigationSections} />
+            <SiteNavigation sections={navigationStructure} />
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" className="font-prompt">
+            <Button variant="outline" className="font-prompt" size="sm">
+              <LogIn className="h-4 w-4 mr-2" />
               เข้าสู่ระบบ
             </Button>
             <Button className="bg-wang-orange hover:bg-orange-600 font-prompt">
@@ -100,16 +76,19 @@ const Header = () => {
           </div>
 
           {/* Mobile menu button */}
-          <button 
-            className="md:hidden p-2" 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center space-x-2 md:hidden">
+            <SiteNavigation sections={navigationStructure} />
+            <button 
+              className="p-2" 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Navigation with Navigation Menu */}
+        {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 py-4 animate-fade-in border-t">
             <nav className="flex flex-col space-y-4">
@@ -133,15 +112,12 @@ const Header = () => {
               </Link>
             </nav>
             
-            <div className="mt-4 pt-4 border-t">
-              <NavigationMenu sections={navigationSections} />
-            </div>
-            
             <div className="flex flex-col space-y-3 mt-4 pt-4 border-t">
-              <Button variant="outline" className="font-prompt">
+              <Button variant="outline" className="font-prompt w-full">
+                <LogIn className="h-4 w-4 mr-2" />
                 เข้าสู่ระบบ
               </Button>
-              <Button className="bg-wang-orange hover:bg-orange-600 font-prompt">
+              <Button className="bg-wang-orange hover:bg-orange-600 font-prompt w-full">
                 ลงประกาศงาน
               </Button>
             </div>
