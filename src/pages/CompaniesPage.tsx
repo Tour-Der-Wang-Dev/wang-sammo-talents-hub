@@ -75,7 +75,7 @@ const CompaniesPage = () => {
                 </li>
                 <li className="flex items-center">
                   <span className="bg-wang-blue text-white rounded-full h-5 w-5 flex items-center justify-center mr-2 text-xs">3</span>
-                  {language === 'th' ? 'บันทึกงานที่สนใจ' : 'Save jobs you're interested in'}
+                  {language === 'th' ? 'บันทึกงานที่สนใจ' : "Save jobs you're interested in"}
                 </li>
                 <li className="flex items-center">
                   <span className="bg-wang-blue text-white rounded-full h-5 w-5 flex items-center justify-center mr-2 text-xs">4</span>
