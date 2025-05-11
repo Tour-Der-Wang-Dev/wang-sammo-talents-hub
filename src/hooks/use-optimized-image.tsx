@@ -53,7 +53,8 @@ export function useOptimizedImage({
   const imageProps = {
     src: imageSrc,
     alt,
-    loading: eager ? 'eager' : 'lazy',
+    // TypeScript requires 'eager' | 'lazy' as literals, not a string variable
+    loading: eager ? 'eager' as const : 'lazy' as const,
     width,
     height,
     onError: () => setImageSrc(fallback),
