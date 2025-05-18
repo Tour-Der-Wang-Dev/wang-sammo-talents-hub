@@ -16,6 +16,8 @@ const JobDetailPage = lazy(() => import("./pages/JobDetailPage" /* webpackChunkN
 const JobPostingPage = lazy(() => import("./pages/JobPostingPage" /* webpackChunkName: "job-posting-page" */));
 const SettingsPage = lazy(() => import("./pages/SettingsPage" /* webpackChunkName: "settings-page" */));
 const CompaniesPage = lazy(() => import("./pages/CompaniesPage" /* webpackChunkName: "companies-page" */));
+const CompanyDetailPage = lazy(() => import("./pages/CompanyDetailPage" /* webpackChunkName: "company-detail-page" */));
+const CompanyRegisterPage = lazy(() => import("./pages/CompanyRegisterPage" /* webpackChunkName: "company-register-page" */));
 const NotFound = lazy(() => import("./pages/NotFound" /* webpackChunkName: "not-found-page" */));
 
 // Improved loading component with better visual feedback
@@ -52,6 +54,8 @@ const App = () => (
               <Route path="/job/create" element={<JobPostingPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/companies" element={<CompaniesPage />} />
+              <Route path="/company/:id" element={<CompanyDetailPage />} />
+              <Route path="/company/register" element={<CompanyRegisterPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
