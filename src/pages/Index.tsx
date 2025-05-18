@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -131,9 +132,11 @@ const Index = () => {
             <p className="text-gray-600 mb-4 md:mb-6 max-w-2xl mx-auto text-sm md:text-base">
               เข้าถึงผู้สมัครงานที่มีคุณภาพในพื้นที่วังสามหมอ เพิ่มโอกาสในการได้พนักงานที่เหมาะสมกับธุรกิจของคุณ
             </p>
-            <Button className="bg-wang-orange hover:bg-orange-600 text-white font-prompt py-2 px-4 sm:py-3 sm:px-6 rounded-md">
-              ลงประกาศรับสมัครงาน
-            </Button>
+            <Link to="/job/create">
+              <Button className="bg-wang-orange hover:bg-orange-600 text-white font-prompt py-2 px-4 sm:py-3 sm:px-6 rounded-md">
+                ลงประกาศรับสมัครงาน
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

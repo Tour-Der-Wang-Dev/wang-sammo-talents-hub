@@ -13,6 +13,7 @@ import SitemapGenerator from './components/SitemapGenerator';
 const Index = lazy(() => import("./pages/Index" /* webpackChunkName: "index-page" */));
 const JobsPage = lazy(() => import("./pages/JobsPage" /* webpackChunkName: "jobs-page" */));
 const JobDetailPage = lazy(() => import("./pages/JobDetailPage" /* webpackChunkName: "job-detail-page" */));
+const JobPostingPage = lazy(() => import("./pages/JobPostingPage" /* webpackChunkName: "job-posting-page" */));
 const SettingsPage = lazy(() => import("./pages/SettingsPage" /* webpackChunkName: "settings-page" */));
 const CompaniesPage = lazy(() => import("./pages/CompaniesPage" /* webpackChunkName: "companies-page" */));
 const NotFound = lazy(() => import("./pages/NotFound" /* webpackChunkName: "not-found-page" */));
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/jobs" element={<JobsPage />} />
               <Route path="/job/:id" element={<JobDetailPage />} />
+              <Route path="/job/create" element={<JobPostingPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/companies" element={<CompaniesPage />} />
               <Route path="*" element={<NotFound />} />

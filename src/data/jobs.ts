@@ -1,4 +1,3 @@
-
 export interface Job {
   id: string;
   title: string;
@@ -154,4 +153,20 @@ export const employmentTypes = [
   "Part-time",
   "Contract",
   "Internship"
+];
+
+// Added exports for benefit options for the job posting form
+export const benefits = [
+  "ประกันสุขภาพ",
+  "สวัสดิการโบนัส",
+  "วันลาพักร้อน",
+  "กองทุนสำรองเลี้ยงชีพ",
+  "ค่ารักษาพยาบาล",
+  "ค่าทำงานล่วงเวลา",
+  "อาหารฟรี",
+  "รถรับส่ง",
+  "ประกันสังคม",
+  "ชุดยูนิฟอร์ม",
+  "ที่พัก",
+  "โบนัสประจำปี"
 ];
