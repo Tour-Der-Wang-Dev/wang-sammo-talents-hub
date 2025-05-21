@@ -8,10 +8,11 @@ A modern job board application designed to connect job seekers with employment o
 ## Features
 
 - Job listing with search and filtering
-- Detailed job descriptions and company profiles
+- Company profiles with job listings
+- Interactive map view for job locations
 - Mobile-responsive design
+- Bilingual support (Thai/English)
 - SEO optimized with structured data
-- Thai language support
 
 ## Documentation
 

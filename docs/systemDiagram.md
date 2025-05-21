@@ -17,7 +17,7 @@
 │  │  - Index    │     │  - Header   │     │ - useMobile │  │
 │  │  - JobsPage │     │  - Footer   │     │ - useToast  │  │
 │  │  - JobDetail│     │  - JobCard  │     │             │  │
-│  │  - NotFound │     │  - Search   │     │             │  │
+│  │  - Companies│     │  - Search   │     │             │  │
 │  └──────┬──────┘     └──────┬──────┘     └─────────────┘  │
 │         │                   │                              │
 │  ┌──────▼───────────────────▼──────┐    ┌─────────────┐   │
@@ -33,15 +33,21 @@
                          │
                          │                    
 ┌────────────────────────▼───────────────────────────────────┐
-│                 Future Integrations                         │
+│                     Supabase                               │
 │                                                            │
 │  ┌─────────────────┐      ┌─────────────────────────────┐  │
-│  │    Supabase     │      │      External Services      │  │
+│  │  Authentication │      │           Database           │  │
 │  │                 │      │                             │  │
-│  │ - Authentication│      │ - Maps API                  │  │
-│  │ - Database      │      │ - Payment Processing        │  │
-│  │ - Storage       │      │ - Email Service             │  │
-│  │ - Edge Functions│      │                             │  │
+│  │ - User Sessions │      │ - Companies                 │  │
+│  │ - User Profiles │      │ - Jobs                      │  │
+│  │ - OAuth         │      │ - Applications              │  │
+│  └────────┬────────┘      └──────────────┬──────────────┘  │
+│           │                               │                │
+│  ┌────────▼────────┐      ┌──────────────▼──────────────┐  │
+│  │     Storage     │      │         Functions           │  │
+│  │                 │      │                             │  │
+│  │ - Company Logos │      │ - Email Notifications       │  │
+│  │ - User Avatars  │      │ - Background Processing     │  │
 │  └─────────────────┘      └─────────────────────────────┘  │
 │                                                            │
 └────────────────────────────────────────────────────────────┘
@@ -51,17 +57,62 @@
 
 ```
 ┌───────────────┐         ┌───────────────┐         ┌───────────────┐
-│   User         │         │  React App    │         │  Mock Data    │
-│   Interface    │◄────────┤   Components  │◄────────┤  (jobs.ts)    │
+│   User         │         │  React App    │         │  Supabase     │
+│   Interface    │◄────────┤   Components  │◄────────┤  Database     │
 └───────┬───────┘         └───────┬───────┘         └───────────────┘
         │                         │                          │
         │                         │                          │
         ▼                         ▼                          ▼
 ┌───────────────┐         ┌───────────────┐         ┌───────────────┐
-│   User         │         │  State        │         │  Future       │
-│   Interactions │────────►│  Management   │────────►│  Supabase     │
-└───────────────┘         └───────────────┘         │  Integration   │
+│   User         │         │  State        │         │  External     │
+│   Interactions │────────►│  Management   │────────►│  Services     │
+└───────────────┘         └───────────────┘         │  (Maps, etc)  │
                                                     └───────────────┘
+```
+
+## Authentication Flow
+
+```
+┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+│   Login        │         │  Supabase     │         │  Session      │
+│   Form         │────────►│  Auth         │────────►│  Management   │
+└───────────────┘         └───────────────┘         └───────┬───────┘
+                                                           │
+                                                           ▼
+┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+│   Protected   │◄────────┤   Auth        │◄────────┤   JWT Token   │
+│   Routes      │         │   Context     │         │   Storage     │
+└───────────────┘         └───────────────┘         └───────────────┘
+```
+
+## Job Application Process
+
+```
+┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+│   Job          │         │  Application  │         │  Supabase     │
+│   Listing      │────────►│  Form         │────────►│  Database     │
+└───────────────┘         └───────────────┘         └───────┬───────┘
+                                                           │
+                                                           ▼
+┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+│   Company     │◄────────┤  Notification │◄────────┤  Application  │
+│   Dashboard   │         │  System       │         │  Processing   │
+└───────────────┘         └───────────────┘         └───────────────┘
+```
+
+## Map Integration
+
+```
+┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+│   Location    │         │  Geocoding    │         │  Map          │
+│   Data        │────────►│  Service      │────────►│  Component    │
+└───────────────┘         └───────────────┘         └───────┬───────┘
+                                                           │
+                                                           ▼
+┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+│   Job/Company │◄────────┤  Interactive  │◄────────┤  User         │
+│   Detail      │         │  Elements     │         │  Interaction  │
+└───────────────┘         └───────────────┘         └───────────────┘
 ```
 
 ## Deployment Architecture
@@ -79,34 +130,20 @@
 └───────────────┘         └───────────────┘         └───────────────┘
 ```
 
-## SEO Implementation
+## Multilingual Support
 
 ```
 ┌───────────────┐         ┌───────────────┐         ┌───────────────┐
-│   React       │         │  SEO          │         │  Search       │
-│   Routes      │────────►│  Component    │────────►│  Engines      │
-└───────────────┘         └───────┬───────┘         └───────────────┘
-                                  │
-                                  ▼
-                          ┌───────────────┐
-                          │  Generated    │
-                          │  Elements:    │
-                          │  - Meta Tags  │
-                          │  - Sitemap    │
-                          │  - Schema.org │
-                          └───────────────┘
+│   Language    │         │  Translation  │         │  Localized    │
+│   Selection   │────────►│  Context      │────────►│  Content      │
+└───────────────┘         └───────────────┘         └───────────────┘
 ```
 
-## Roadmap for Future Enhancements
+## Future Enhancements
 
-- Authentication System
-- Database Integration
-- Real-time Job Notifications
-- Admin Dashboard
-- Advanced Search with Geolocation
-- Personalized Job Recommendations
-- Application Tracking System
-- Employer Portal
-- Multilingual Support Enhancement
-- Analytics Dashboard
-
+- Real-time job notifications
+- Advanced search with geolocation filters
+- Employer dashboard with analytics
+- Application tracking system
+- Recommendation engine
+- Mobile application integration

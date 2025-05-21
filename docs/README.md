@@ -29,7 +29,12 @@ npm run dev
 
 ### Environment Variables
 
-No environment variables are currently required to run this application.
+Create a `.env` file in the root directory with the following variables for Supabase integration:
+
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
 ## Technologies Used
 
@@ -47,7 +52,7 @@ No environment variables are currently required to run this application.
 - [Recharts](https://recharts.org/) - Charting library
 - [Tanstack Query](https://tanstack.com/query/latest) - Data fetching library
 
-### Future Integrations (Planned)
+### Backend Integration
 - [Supabase](https://supabase.com/) - Backend-as-a-Service for authentication and database
 
 ## Project Structure
@@ -95,7 +100,16 @@ chore: update dependencies
 4. Create a pull request with a descriptive title and detailed description
 5. Request review from a team member
 
+## Folder Structure Recommendations
+
+For improved organization as the application grows:
+
+1. Consider reorganizing components into feature-based folders (e.g., `/src/features/jobs`, `/src/features/companies`)
+2. Move shared UI components to `/src/components/common`
+3. Group related utilities by domain in `/src/utils`
+4. Create separate folders for API services in `/src/services`
+5. Add a `/src/contexts` directory for React context providers
+
 ## License
 
 This project is proprietary software. All rights reserved.
-
