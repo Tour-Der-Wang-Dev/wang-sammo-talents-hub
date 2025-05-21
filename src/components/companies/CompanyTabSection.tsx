@@ -18,6 +18,13 @@ const CompanyTabSection: React.FC<CompanyTabSectionProps> = ({
 }) => {
   const { language } = useLanguage();
 
+  // Get top companies (with most open positions)
+  const topCompanies = React.useMemo(() => {
+    return [...companies]
+      .sort((a, b) => b.openPositions - a.openPositions)
+      .slice(0, 6);
+  }, [companies]);
+
   const translations = {
     allCompanies: {
       th: 'บริษัททั้งหมด',
@@ -44,30 +51,30 @@ const CompanyTabSection: React.FC<CompanyTabSectionProps> = ({
   return (
     <Tabs defaultValue="all" className="w-full">
       <TabsList className="mb-6">
-        <TabsTrigger value="all">
+        <TabsTrigger value="all" className="font-prompt">
           {translations.allCompanies[language]}
         </TabsTrigger>
-        <TabsTrigger value="top">
+        <TabsTrigger value="top" className="font-prompt">
           {translations.topCompanies[language]}
         </TabsTrigger>
-        <TabsTrigger value="verified">
+        <TabsTrigger value="verified" className="font-prompt">
           {translations.verified[language]}
         </TabsTrigger>
       </TabsList>
       
       <TabsContent value="all">
         {filteredCompanies.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
             {filteredCompanies.map(company => (
               <CompanyCard key={company.id} company={company} />
             ))}
           </div>
         ) : (
           <div className="text-center py-12 bg-gray-50 rounded-lg">
-            <h3 className="text-lg font-medium mb-2">
+            <h3 className="text-lg font-medium mb-2 font-prompt">
               {translations.noResults[language]}
             </h3>
-            <p className="text-gray-500">
+            <p className="text-gray-500 font-sarabun">
               {translations.tryAgain[language]}
             </p>
           </div>
@@ -75,15 +82,15 @@ const CompanyTabSection: React.FC<CompanyTabSectionProps> = ({
       </TabsContent>
       
       <TabsContent value="top">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-          {companies.filter(c => c.openPositions > 3).map(company => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
+          {topCompanies.map(company => (
             <CompanyCard key={company.id} company={company} />
           ))}
         </div>
       </TabsContent>
       
       <TabsContent value="verified">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
           {verifiedCompanies.map(company => (
             <CompanyCard key={company.id} company={company} />
           ))}

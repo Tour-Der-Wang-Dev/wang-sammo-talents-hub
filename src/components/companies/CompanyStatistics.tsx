@@ -1,7 +1,7 @@
 
 import React, { useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Building2, Users, Briefcase } from 'lucide-react';
+import { Building2, Users, Briefcase, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/components/SiteNavigation';
 import { Company } from '@/types/Company';
 
@@ -17,9 +17,33 @@ const CompanyStatistics: React.FC<CompanyStatisticsProps> = ({ companies }) => {
     return companies.reduce((total, company) => total + company.openPositions, 0);
   }, [companies]);
   
-  // Count unique industries
-  const uniqueIndustries = useMemo(() => {
-    return new Set(companies.map(company => company.industry)).size;
+  // Count unique industries and get their frequencies
+  const industryStats = useMemo(() => {
+    const industries = companies.map(company => company.industry);
+    const uniqueIndustries = new Set(industries);
+    
+    // Count frequency of each industry
+    const counts: Record<string, number> = {};
+    industries.forEach(industry => {
+      counts[industry] = (counts[industry] || 0) + 1;
+    });
+    
+    // Sort industries by frequency
+    const sortedIndustries = [...uniqueIndustries].sort((a, b) => counts[b] - counts[a]);
+    
+    // Get top 5 industries
+    const topIndustries = sortedIndustries.slice(0, 5);
+    
+    return {
+      count: uniqueIndustries.size,
+      top: topIndustries,
+      counts
+    };
+  }, [companies]);
+  
+  // Count verified companies
+  const verifiedCount = useMemo(() => {
+    return companies.filter(company => company.verified).length;
   }, [companies]);
   
   const translations = useMemo(() => ({
@@ -42,6 +66,14 @@ const CompanyStatistics: React.FC<CompanyStatisticsProps> = ({ companies }) => {
     popularIndustries: {
       th: 'อุตสาหกรรมยอดนิยม',
       en: 'Popular Industries'
+    },
+    verifiedCompanies: {
+      th: 'บริษัทที่ยืนยันแล้ว',
+      en: 'Verified Companies'
+    },
+    companiesCount: {
+      th: 'บริษัท',
+      en: 'companies'
     }
   }), []);
   
@@ -84,7 +116,21 @@ const CompanyStatistics: React.FC<CompanyStatisticsProps> = ({ companies }) => {
             <div className="text-gray-600 text-sm">
               {translations.industries[language]}
             </div>
-            <div className="font-medium">{uniqueIndustries}</div>
+            <div className="font-medium">{industryStats.count}</div>
+          </div>
+        </div>
+        
+        <div className="flex items-center">
+          <div className="bg-purple-100 p-2 rounded-full mr-3">
+            <CheckCircle2 className="text-purple-600 h-5 w-5" />
+          </div>
+          <div>
+            <div className="text-gray-600 text-sm">
+              {translations.verifiedCompanies[language]}
+            </div>
+            <div className="font-medium">
+              {verifiedCount} / {companies.length}
+            </div>
           </div>
         </div>
       </div>
@@ -94,9 +140,12 @@ const CompanyStatistics: React.FC<CompanyStatisticsProps> = ({ companies }) => {
           {translations.popularIndustries[language]}
         </h3>
         <div className="flex flex-wrap gap-2">
-          {['Hospitality', 'Tourism', 'Technology'].map(ind => (
-            <Badge key={ind} variant="secondary" className="text-xs">
+          {industryStats.top.map(ind => (
+            <Badge key={ind} variant="secondary" className="text-xs flex items-center gap-1">
               {ind}
+              <span className="bg-gray-200 text-gray-700 rounded-full text-[10px] px-1.5">
+                {industryStats.counts[ind]}
+              </span>
             </Badge>
           ))}
         </div>

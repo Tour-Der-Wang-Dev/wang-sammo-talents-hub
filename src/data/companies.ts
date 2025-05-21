@@ -37,7 +37,7 @@ export const companies: Company[] = [
     employeeCount: "11-50",
     website: "https://wangsammo-tech.example.com",
     founded: 2015,
-    openPositions: 3,
+    openPositions: 8,
     verified: true,
     contactEmail: "info@wangsammo-tech.example.com",
     contactPhone: "02-765-4321",
@@ -111,6 +111,117 @@ export const companies: Company[] = [
       facebook: "https://facebook.com/wangsammo-hotel",
       instagram: "https://instagram.com/wangsammo-hotel",
       twitter: "https://twitter.com/wangsammo-hotel"
+    }
+  },
+  {
+    id: "6",
+    name: "เกษตรวังสามหมอ",
+    nameEn: "Wang Sam Mo Agriculture",
+    logo: "/placeholder.svg",
+    coverImage: "/placeholder.svg",
+    description: "บริษัทเกษตรกรรมที่ใช้เทคโนโลยีทันสมัยในการเพาะปลูกและผลิตสินค้าเกษตรคุณภาพสูง",
+    descriptionEn: "An agricultural company using modern technology for high-quality crop cultivation and production",
+    industry: "Agriculture",
+    location: "วังสามหมอ, อุดรธานี",
+    employeeCount: "201-500",
+    website: "https://wangsammo-agri.example.com",
+    founded: 2005,
+    openPositions: 12,
+    verified: true,
+    contactEmail: "info@wangsammo-agri.example.com",
+    contactPhone: "02-567-8901",
+    socialMedia: {
+      facebook: "https://facebook.com/wangsammo-agri",
+      instagram: "https://instagram.com/wangsammo-agri"
+    }
+  },
+  {
+    id: "7",
+    name: "วังสามหมอการศึกษา",
+    nameEn: "Wang Sam Mo Education",
+    logo: "/placeholder.svg",
+    coverImage: "/placeholder.svg",
+    description: "สถาบันการศึกษาที่มีคุณภาพสูงในวังสามหมอ ให้บริการด้านการศึกษาตั้งแต่ระดับอนุบาลถึงมัธยมปลาย",
+    descriptionEn: "A high-quality educational institution in Wang Sam Mo, providing education from kindergarten to high school levels",
+    industry: "Education",
+    location: "วังสามหมอ, อุดรธานี",
+    employeeCount: "51-200",
+    website: "https://wangsammo-edu.example.com",
+    founded: 2000,
+    openPositions: 7,
+    verified: false,
+    contactEmail: "info@wangsammo-edu.example.com",
+    contactPhone: "02-678-9012",
+    socialMedia: {
+      facebook: "https://facebook.com/wangsammo-edu",
+      instagram: "https://instagram.com/wangsammo-edu"
+    }
+  },
+  {
+    id: "8",
+    name: "วังสามหมอการแพทย์",
+    nameEn: "Wang Sam Mo Medical",
+    logo: "/placeholder.svg",
+    coverImage: "/placeholder.svg",
+    description: "ศูนย์การแพทย์และโรงพยาบาลที่มีความเชี่ยวชาญในการรักษาโรคต่างๆ ด้วยเทคโนโลยีทันสมัย",
+    descriptionEn: "A medical center and hospital specializing in treating various diseases with modern technology",
+    industry: "Healthcare",
+    location: "วังสามหมอ, อุดรธานี",
+    employeeCount: "201-500",
+    website: "https://wangsammo-med.example.com",
+    founded: 1995,
+    openPositions: 15,
+    verified: true,
+    contactEmail: "info@wangsammo-med.example.com",
+    contactPhone: "02-789-0123",
+    socialMedia: {
+      facebook: "https://facebook.com/wangsammo-med",
+      twitter: "https://twitter.com/wangsammo-med",
+      instagram: "https://instagram.com/wangsammo-med"
+    }
+  },
+  {
+    id: "9",
+    name: "วังสามหมอค้าปลีก",
+    nameEn: "Wang Sam Mo Retail",
+    logo: "/placeholder.svg",
+    coverImage: "/placeholder.svg",
+    description: "ห้างสรรพสินค้าและร้านค้าปลีกที่ใหญ่ที่สุดในวังสามหมอ จำหน่ายสินค้าหลากหลายประเภท",
+    descriptionEn: "The largest department store and retail shop in Wang Sam Mo, selling a wide variety of products",
+    industry: "Retail",
+    location: "วังสามหมอ, อุดรธานี",
+    employeeCount: "201-500",
+    website: "https://wangsammo-retail.example.com",
+    founded: 2002,
+    openPositions: 10,
+    verified: true,
+    contactEmail: "info@wangsammo-retail.example.com",
+    contactPhone: "02-890-1234",
+    socialMedia: {
+      facebook: "https://facebook.com/wangsammo-retail",
+      instagram: "https://instagram.com/wangsammo-retail"
+    }
+  },
+  {
+    id: "10",
+    name: "วังสามหมอก่อสร้าง",
+    nameEn: "Wang Sam Mo Construction",
+    logo: "/placeholder.svg",
+    coverImage: "/placeholder.svg",
+    description: "บริษัทก่อสร้างชั้นนำในวังสามหมอ รับเหมาก่อสร้างอาคารและสิ่งปลูกสร้างทุกประเภท",
+    descriptionEn: "A leading construction company in Wang Sam Mo, contracting for all types of buildings and structures",
+    industry: "Construction",
+    location: "วังสามหมอ, อุดรธานี",
+    employeeCount: "51-200",
+    website: "https://wangsammo-construction.example.com",
+    founded: 2007,
+    openPositions: 9,
+    verified: false,
+    contactEmail: "info@wangsammo-construction.example.com",
+    contactPhone: "02-901-2345",
+    socialMedia: {
+      facebook: "https://facebook.com/wangsammo-construction",
+      instagram: "https://instagram.com/wangsammo-construction"
     }
   }
 ];

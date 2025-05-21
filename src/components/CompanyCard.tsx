@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Building2, MapPin, Briefcase, Link as LinkIcon, CheckCircle } from 'lucide-react';
+import { Building2, MapPin, Briefcase, Link as LinkIcon, CheckCircle, Users, Calendar } from 'lucide-react';
 import { Company } from '@/types/Company';
 import { useLanguage } from '@/components/SiteNavigation';
 
@@ -13,6 +13,29 @@ interface CompanyCardProps {
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
   const { language } = useLanguage();
+  
+  const translations = {
+    verified: {
+      th: 'ยืนยันแล้ว',
+      en: 'Verified'
+    },
+    openPositions: {
+      th: 'ตำแหน่งงาน',
+      en: 'open positions'
+    },
+    viewDetails: {
+      th: 'ดูรายละเอียด',
+      en: 'View details'
+    },
+    founded: {
+      th: 'ก่อตั้ง',
+      en: 'Founded'
+    },
+    employees: {
+      th: 'พนักงาน',
+      en: 'Employees'
+    }
+  };
   
   return (
     <Link to={`/company/${company.id}`} className="block transition-transform hover:scale-[1.01] active:scale-[0.99]">
@@ -39,7 +62,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
             <div className="absolute bottom-3 right-3">
               <Badge className="bg-wang-blue text-white flex items-center gap-1">
                 <CheckCircle size={14} />
-                <span className="text-xs">{language === 'th' ? 'ยืนยันแล้ว' : 'Verified'}</span>
+                <span className="text-xs">{translations.verified[language]}</span>
               </Badge>
             </div>
           )}
@@ -50,37 +73,48 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
             {language === 'th' ? company.name : company.nameEn}
           </h3>
           
-          <div className="space-y-2 mt-2">
-            <div className="flex items-center text-sm text-gray-600">
-              <Building2 size={16} className="mr-2 flex-shrink-0" />
-              <span>{company.industry}</span>
-            </div>
-            
+          <div className="flex items-center mb-3">
+            <Badge variant="outline" className="text-[11px] bg-gray-50">
+              {company.industry}
+            </Badge>
+          </div>
+          
+          <div className="space-y-2">
             <div className="flex items-center text-sm text-gray-600">
               <MapPin size={16} className="mr-2 flex-shrink-0" />
-              <span>{company.location}</span>
+              <span className="line-clamp-1">{company.location}</span>
             </div>
             
             <div className="flex items-center text-sm text-gray-600">
               <Briefcase size={16} className="mr-2 flex-shrink-0" />
               <span>
-                {language === 'th' 
-                  ? `${company.openPositions} ตำแหน่งงาน` 
-                  : `${company.openPositions} open positions`}
+                <span className="font-medium text-wang-blue">{company.openPositions}</span>
+                &nbsp;{language === 'th' 
+                  ? translations.openPositions.th
+                  : translations.openPositions.en}
               </span>
+            </div>
+            
+            <div className="flex items-center text-sm text-gray-600">
+              <Users size={16} className="mr-2 flex-shrink-0" />
+              <span>{company.employeeCount} {translations.employees[language]}</span>
             </div>
           </div>
         </CardContent>
         
         <CardFooter className="bg-gray-50 px-4 py-3 text-sm border-t flex justify-between">
-          <div className="flex items-center text-wang-blue">
+          <div className="flex items-center text-wang-orange font-medium">
             <LinkIcon size={16} className="mr-1" />
-            <span>{language === 'th' ? 'ดูรายละเอียด' : 'View details'}</span>
+            <span>{translations.viewDetails[language]}</span>
           </div>
           
-          <span className="text-gray-500">
-            {language === 'th' ? 'ก่อตั้ง ' : 'Founded '}{company.founded}
-          </span>
+          <div className="flex items-center text-gray-500">
+            <Calendar size={14} className="mr-1" />
+            <span>
+              {language === 'th' ? translations.founded.th : translations.founded.en}&nbsp;
+              {company.founded}
+            </span>
+          </div>
         </CardFooter>
       </Card>
     </Link>
