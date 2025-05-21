@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Building2, MapPin, Briefcase, Link as LinkIcon, CheckCircle, Users, Calendar } from 'lucide-react';
 import { Company } from '@/types/Company';
 import { useLanguage } from '@/components/SiteNavigation';
+import { jobs } from '@/data/jobs';
 
 interface CompanyCardProps {
   company: Company;
@@ -13,6 +14,11 @@ interface CompanyCardProps {
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
   const { language } = useLanguage();
+  
+  // Count job listings for this company
+  const jobCount = useMemo(() => {
+    return jobs.filter(job => job.company === company.name).length;
+  }, [company.name]);
   
   const translations = {
     verified: {
@@ -59,7 +65,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
           </div>
           
           {company.verified && (
-            <div className="absolute bottom-3 right-3">
+            <div className="absolute top-3 right-3">
               <Badge className="bg-wang-blue text-white flex items-center gap-1">
                 <CheckCircle size={14} />
                 <span className="text-xs">{translations.verified[language]}</span>
@@ -69,7 +75,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
         </div>
         
         <CardContent className="p-4">
-          <h3 className="font-prompt text-lg font-medium text-gray-900 mb-1">
+          <h3 className="font-prompt text-lg font-medium text-gray-900 mb-1 truncate">
             {language === 'th' ? company.name : company.nameEn}
           </h3>
           
@@ -77,22 +83,19 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
             <Badge variant="outline" className="text-[11px] bg-gray-50">
               {company.industry}
             </Badge>
+            
+            {/* Display job count if greater than 0 */}
+            {jobCount > 0 && (
+              <Badge variant="secondary" className="ml-2 text-[11px] bg-wang-blue/10 text-wang-blue">
+                {jobCount} {translations.openPositions[language === 'th' ? 'th' : 'en']}
+              </Badge>
+            )}
           </div>
           
           <div className="space-y-2">
             <div className="flex items-center text-sm text-gray-600">
               <MapPin size={16} className="mr-2 flex-shrink-0" />
               <span className="line-clamp-1">{company.location}</span>
-            </div>
-            
-            <div className="flex items-center text-sm text-gray-600">
-              <Briefcase size={16} className="mr-2 flex-shrink-0" />
-              <span>
-                <span className="font-medium text-wang-blue">{company.openPositions}</span>
-                &nbsp;{language === 'th' 
-                  ? translations.openPositions.th
-                  : translations.openPositions.en}
-              </span>
             </div>
             
             <div className="flex items-center text-sm text-gray-600">
