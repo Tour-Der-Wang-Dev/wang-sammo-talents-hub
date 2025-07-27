@@ -8,6 +8,7 @@ import { Suspense, lazy } from 'react';
 import { Loader2 } from 'lucide-react';
 import { HelmetProvider } from 'react-helmet-async';
 import SitemapGenerator from './components/SitemapGenerator';
+import { ErrorBoundary } from './hooks/use-error-boundary';
 
 // Lazy load pages for better performance with more descriptive chunk names
 const Index = lazy(() => import("./pages/Index" /* webpackChunkName: "index-page" */));
@@ -39,30 +40,32 @@ const queryClient = new QueryClient({
 });
 
 const App = () => (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <SitemapGenerator />
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/jobs" element={<JobsPage />} />
-              <Route path="/job/:id" element={<JobDetailPage />} />
-              <Route path="/job/create" element={<JobPostingPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/companies" element={<CompaniesPage />} />
-              <Route path="/company/:id" element={<CompanyDetailPage />} />
-              <Route path="/company/register" element={<CompanyRegisterPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
+  <ErrorBoundary>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <SitemapGenerator />
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/jobs" element={<JobsPage />} />
+                <Route path="/job/:id" element={<JobDetailPage />} />
+                <Route path="/job/create" element={<JobPostingPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/companies" element={<CompaniesPage />} />
+                <Route path="/company/:id" element={<CompanyDetailPage />} />
+                <Route path="/company/register" element={<CompanyRegisterPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  </ErrorBoundary>
 );
 
 export default App;

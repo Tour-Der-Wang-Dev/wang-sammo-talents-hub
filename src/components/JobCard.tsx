@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +9,7 @@ interface JobCardProps {
   job: Job;
 }
 
-const JobCard: React.FC<JobCardProps> = ({ job }) => {
+const JobCard: React.FC<JobCardProps> = memo(({ job }) => {
   return (
     <Link to={`/job/${job.id}`} className="block h-full transition-transform hover:scale-[1.01] active:scale-[0.99] focus-visible:outline-wang-blue touch-manipulation" aria-label={`งาน ${job.titleThai || job.title} ที่ ${job.company}`}>
       <Card className="h-full job-card overflow-hidden border border-gray-200 hover:shadow-md transition-shadow duration-200">
@@ -70,6 +70,8 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
       </Card>
     </Link>
   );
-};
+});
+
+JobCard.displayName = 'JobCard';
 
 export default JobCard;
