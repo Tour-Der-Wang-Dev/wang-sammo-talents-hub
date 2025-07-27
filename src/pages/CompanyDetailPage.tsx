@@ -1,11 +1,11 @@
 import React from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import JobCard from '@/components/JobCard';
-import { useLanguage } from '@/components/SiteNavigation';
+import { useLanguage } from '@/hooks/use-language';
 import SEO from '@/components/SEO';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCompanyById, fetchJobs } from '@/api/mockApi';
@@ -18,7 +18,6 @@ import { Building2, Users, MapPin, Globe, Mail, Phone, Calendar, ArrowLeft, Face
 const CompanyDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const { language } = useLanguage();
-  const navigate = useNavigate();
   
   const { data: company, isLoading: isLoadingCompany, isError: isCompanyError } = useQuery<Company | undefined, Error>({
     queryKey: ['company', id],
@@ -39,14 +38,8 @@ const CompanyDetailPage = () => {
     return (
       <Layout>
         <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-prompt font-bold text-gray-800">
-            {language === 'th' ? 'ไม่พบข้อมูลบริษัท' : 'Company Not Found'}
-          </h1>
-          <Link to="/companies">
-            <Button className="mt-6">
-              {language === 'th' ? 'กลับไปหน้าบริษัททั้งหมด' : 'Back to Companies'}
-            </Button>
-          </Link>
+          <h1 className="text-2xl font-prompt font-bold text-gray-800">{language === 'th' ? 'ไม่พบข้อมูลบริษัท' : 'Company Not Found'}</h1>
+          <Link to="/companies"><Button className="mt-6">{language === 'th' ? 'กลับไปหน้าบริษัททั้งหมด' : 'Back to Companies'}</Button></Link>
         </div>
       </Layout>
     );
@@ -56,21 +49,14 @@ const CompanyDetailPage = () => {
   
   return (
     <Layout>
-      <SEO 
-        title={language === 'th' ? company.name : company.nameEn}
-        description={language === 'th' ? company.description : company.descriptionEn}
-      />
-      
+      <SEO title={language === 'th' ? company.name : company.nameEn} description={language === 'th' ? company.description : company.descriptionEn} />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Link to="/companies" className="inline-flex items-center text-gray-600 hover:text-wang-blue">
             <ArrowLeft size={16} className="mr-1" />
-            <span className="font-prompt">
-              {language === 'th' ? 'กลับไปหน้าบริษัททั้งหมด' : 'Back to Companies'}
-            </span>
+            <span className="font-prompt">{language === 'th' ? 'กลับไปหน้าบริษัททั้งหมด' : 'Back to Companies'}</span>
           </Link>
         </div>
-        
         <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-8">
           <div className="h-48 w-full overflow-hidden relative">
             <img src={company.coverImage || '/placeholder.svg'} alt={language === 'th' ? company.name : company.nameEn} className="w-full h-full object-cover" />
@@ -94,7 +80,6 @@ const CompanyDetailPage = () => {
             </div>
           </div>
         </div>
-        
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <Tabs defaultValue="about">

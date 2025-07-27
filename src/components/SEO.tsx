@@ -1,11 +1,7 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLanguage } from '@/components/SiteNavigation';
+import { useLanguage } from '@/hooks/use-language';
 
-/**
- * SEO component props
- */
 interface SEOProps {
   title?: string;
   description?: string;
@@ -13,14 +9,9 @@ interface SEOProps {
   structuredData?: Record<string, any> | Record<string, any>[];
   ogImage?: string;
   children?: React.ReactNode;
-  alternateUrls?: {
-    [key: string]: string;
-  };
+  alternateUrls?: { [key: string]: string };
 }
 
-/**
- * Enhanced SEO component to manage dynamic metadata with improved language support
- */
 const SEO: React.FC<SEOProps> = ({
   title,
   description,
@@ -48,46 +39,26 @@ const SEO: React.FC<SEOProps> = ({
       <title>{fullTitle}</title>
       <meta name="description" content={metaDescription} />
       <link rel="canonical" href={currentUrl} />
-      
-      {/* Open Graph / Facebook */}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDescription} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={currentUrl} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:locale" content={language === 'th' ? 'th_TH' : 'en_US'} />
-      
-      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={ogImage} />
-      
-      {/* Alternate language links */}
       {alternateUrls && Object.entries(alternateUrls).map(([lang, url]) => (
-        <link 
-          key={lang} 
-          rel="alternate" 
-          hrefLang={lang} 
-          href={url} 
-        />
+        <link key={lang} rel="alternate" hrefLang={lang} href={url} />
       ))}
-      
-      {/* Structured data */}
-      {structuredData && Array.isArray(structuredData) ? (
+      {structuredData && (Array.isArray(structuredData) ? (
         structuredData.map((data, index) => (
-          <script key={index} type="application/ld+json">
-            {JSON.stringify(data)}
-          </script>
+          <script key={index} type="application/ld+json">{JSON.stringify(data)}</script>
         ))
       ) : (
-        structuredData && (
-          <script type="application/ld+json">
-            {JSON.stringify(structuredData)}
-          </script>
-        )
-      )}
-      
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+      ))}
       {children}
     </Helmet>
   );

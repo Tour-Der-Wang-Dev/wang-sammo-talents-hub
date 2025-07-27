@@ -1,8 +1,7 @@
-
 import React, { useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Building2, Users, Briefcase, CheckCircle2 } from 'lucide-react';
-import { useLanguage } from '@/components/SiteNavigation';
+import { useLanguage } from '@/hooks/use-language';
 import { Company } from '@/types/Company';
 
 interface CompanyStatisticsProps {
@@ -12,141 +11,41 @@ interface CompanyStatisticsProps {
 const CompanyStatistics: React.FC<CompanyStatisticsProps> = ({ companies }) => {
   const { language } = useLanguage();
   
-  // Calculate total open positions
-  const totalOpenPositions = useMemo(() => {
-    return companies.reduce((total, company) => total + company.openPositions, 0);
-  }, [companies]);
+  const totalOpenPositions = useMemo(() => companies.reduce((total, company) => total + company.openPositions, 0), [companies]);
   
-  // Count unique industries and get their frequencies
   const industryStats = useMemo(() => {
     const industries = companies.map(company => company.industry);
-    const uniqueIndustries = new Set(industries);
-    
-    // Count frequency of each industry
     const counts: Record<string, number> = {};
-    industries.forEach(industry => {
-      counts[industry] = (counts[industry] || 0) + 1;
-    });
-    
-    // Sort industries by frequency
-    const sortedIndustries = [...uniqueIndustries].sort((a, b) => counts[b] - counts[a]);
-    
-    // Get top 5 industries
-    const topIndustries = sortedIndustries.slice(0, 5);
-    
-    return {
-      count: uniqueIndustries.size,
-      top: topIndustries,
-      counts
-    };
+    industries.forEach(industry => { counts[industry] = (counts[industry] || 0) + 1; });
+    const sortedIndustries = [...new Set(industries)].sort((a, b) => counts[b] - counts[a]);
+    return { count: new Set(industries).size, top: sortedIndustries.slice(0, 5), counts };
   }, [companies]);
   
-  // Count verified companies
-  const verifiedCount = useMemo(() => {
-    return companies.filter(company => company.verified).length;
-  }, [companies]);
+  const verifiedCount = useMemo(() => companies.filter(company => company.verified).length, [companies]);
   
   const translations = useMemo(() => ({
-    statistics: {
-      th: 'สถิติ',
-      en: 'Statistics'
-    },
-    totalCompanies: {
-      th: 'บริษัททั้งหมด',
-      en: 'Total Companies'
-    },
-    activeJobs: {
-      th: 'ตำแหน่งงานที่เปิดรับ',
-      en: 'Active Jobs'
-    },
-    industries: {
-      th: 'อุตสาหกรรม',
-      en: 'Industries'
-    },
-    popularIndustries: {
-      th: 'อุตสาหกรรมยอดนิยม',
-      en: 'Popular Industries'
-    },
-    verifiedCompanies: {
-      th: 'บริษัทที่ยืนยันแล้ว',
-      en: 'Verified Companies'
-    },
-    companiesCount: {
-      th: 'บริษัท',
-      en: 'companies'
-    }
+    statistics: { th: 'สถิติ', en: 'Statistics' },
+    totalCompanies: { th: 'บริษัททั้งหมด', en: 'Total Companies' },
+    activeJobs: { th: 'ตำแหน่งงานที่เปิดรับ', en: 'Active Jobs' },
+    industries: { th: 'อุตสาหกรรม', en: 'Industries' },
+    popularIndustries: { th: 'อุตสาหกรรมยอดนิยม', en: 'Popular Industries' },
+    verifiedCompanies: { th: 'บริษัทที่ยืนยันแล้ว', en: 'Verified Companies' },
   }), []);
   
   return (
     <div className="bg-white rounded-lg border shadow-sm p-4 mb-6">
-      <h2 className="font-prompt text-lg font-medium border-b pb-2 mb-4">
-        {translations.statistics[language]}
-      </h2>
-      
+      <h2 className="font-prompt text-lg font-medium border-b pb-2 mb-4">{translations.statistics[language]}</h2>
       <div className="space-y-4">
-        <div className="flex items-center">
-          <div className="bg-blue-100 p-2 rounded-full mr-3">
-            <Building2 className="text-wang-blue h-5 w-5" />
-          </div>
-          <div>
-            <div className="text-gray-600 text-sm">
-              {translations.totalCompanies[language]}
-            </div>
-            <div className="font-medium">{companies.length}</div>
-          </div>
-        </div>
-        
-        <div className="flex items-center">
-          <div className="bg-orange-100 p-2 rounded-full mr-3">
-            <Briefcase className="text-wang-orange h-5 w-5" />
-          </div>
-          <div>
-            <div className="text-gray-600 text-sm">
-              {translations.activeJobs[language]}
-            </div>
-            <div className="font-medium">{totalOpenPositions}</div>
-          </div>
-        </div>
-        
-        <div className="flex items-center">
-          <div className="bg-green-100 p-2 rounded-full mr-3">
-            <Users className="text-green-600 h-5 w-5" />
-          </div>
-          <div>
-            <div className="text-gray-600 text-sm">
-              {translations.industries[language]}
-            </div>
-            <div className="font-medium">{industryStats.count}</div>
-          </div>
-        </div>
-        
-        <div className="flex items-center">
-          <div className="bg-purple-100 p-2 rounded-full mr-3">
-            <CheckCircle2 className="text-purple-600 h-5 w-5" />
-          </div>
-          <div>
-            <div className="text-gray-600 text-sm">
-              {translations.verifiedCompanies[language]}
-            </div>
-            <div className="font-medium">
-              {verifiedCount} / {companies.length}
-            </div>
-          </div>
-        </div>
+        <div className="flex items-center"><div className="bg-blue-100 p-2 rounded-full mr-3"><Building2 className="text-wang-blue h-5 w-5" /></div><div><div className="text-gray-600 text-sm">{translations.totalCompanies[language]}</div><div className="font-medium">{companies.length}</div></div></div>
+        <div className="flex items-center"><div className="bg-orange-100 p-2 rounded-full mr-3"><Briefcase className="text-wang-orange h-5 w-5" /></div><div><div className="text-gray-600 text-sm">{translations.activeJobs[language]}</div><div className="font-medium">{totalOpenPositions}</div></div></div>
+        <div className="flex items-center"><div className="bg-green-100 p-2 rounded-full mr-3"><Users className="text-green-600 h-5 w-5" /></div><div><div className="text-gray-600 text-sm">{translations.industries[language]}</div><div className="font-medium">{industryStats.count}</div></div></div>
+        <div className="flex items-center"><div className="bg-purple-100 p-2 rounded-full mr-3"><CheckCircle2 className="text-purple-600 h-5 w-5" /></div><div><div className="text-gray-600 text-sm">{translations.verifiedCompanies[language]}</div><div className="font-medium">{verifiedCount} / {companies.length}</div></div></div>
       </div>
-      
       <div className="mt-6">
-        <h3 className="font-prompt text-sm font-medium mb-2">
-          {translations.popularIndustries[language]}
-        </h3>
+        <h3 className="font-prompt text-sm font-medium mb-2">{translations.popularIndustries[language]}</h3>
         <div className="flex flex-wrap gap-2">
           {industryStats.top.map(ind => (
-            <Badge key={ind} variant="secondary" className="text-xs flex items-center gap-1">
-              {ind}
-              <span className="bg-gray-200 text-gray-700 rounded-full text-[10px] px-1.5">
-                {industryStats.counts[ind]}
-              </span>
-            </Badge>
+            <Badge key={ind} variant="secondary" className="text-xs flex items-center gap-1">{ind}<span className="bg-gray-200 text-gray-700 rounded-full text-[10px] px-1.5">{industryStats.counts[ind]}</span></Badge>
           ))}
         </div>
       </div>

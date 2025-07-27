@@ -7,6 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { HelmetProvider } from 'react-helmet-async';
 import SitemapGenerator from './components/SitemapGenerator';
 import { ErrorBoundary } from './hooks/use-error-boundary';
+import { LanguageProvider } from './hooks/use-language';
 
 // Lazy load pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -48,34 +49,36 @@ const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Sonner />
-          <BrowserRouter>
-            <SitemapGenerator />
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/jobs" element={<JobsPage />} />
-                <Route path="/job/:id" element={<JobDetailPage />} />
-                <Route path="/post-job" element={<JobPostingPage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="/companies" element={<CompaniesPage />} />
-                <Route path="/company/:id" element={<CompanyDetailPage />} />
-                <Route path="/company/register" element={<CompanyRegisterPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/saved-jobs" element={<SavedJobsPage />} />
-                <Route path="/job-alerts" element={<JobAlertsPage />} />
-                <Route path="/pricing" element={<PricingPage />} />
-                <Route path="/company-profile" element={<CompanyProfilePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/terms" element={<TermsPage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
+        <LanguageProvider>
+          <TooltipProvider>
+            <Sonner />
+            <BrowserRouter>
+              <SitemapGenerator />
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/jobs" element={<JobsPage />} />
+                  <Route path="/job/:id" element={<JobDetailPage />} />
+                  <Route path="/post-job" element={<JobPostingPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/companies" element={<CompaniesPage />} />
+                  <Route path="/company/:id" element={<CompanyDetailPage />} />
+                  <Route path="/company/register" element={<CompanyRegisterPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/saved-jobs" element={<SavedJobsPage />} />
+                  <Route path="/job-alerts" element={<JobAlertsPage />} />
+                  <Route path="/pricing" element={<PricingPage />} />
+                  <Route path="/company-profile" element={<CompanyProfilePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/privacy" element={<PrivacyPage />} />
+                  <Route path="/terms" element={<TermsPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </TooltipProvider>
+        </LanguageProvider>
       </QueryClientProvider>
     </HelmetProvider>
   </ErrorBoundary>
