@@ -1,11 +1,10 @@
-import React, { useMemo, memo } from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Building2, MapPin, Briefcase, Link as LinkIcon, CheckCircle, Users, Calendar } from 'lucide-react';
+import { Building2, MapPin, Link as LinkIcon, CheckCircle, Users, Calendar } from 'lucide-react';
 import { Company } from '@/types/Company';
 import { useLanguage } from '@/components/SiteNavigation';
-import { jobs } from '@/data/jobs';
 
 interface CompanyCardProps {
   company: Company;
@@ -13,11 +12,6 @@ interface CompanyCardProps {
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
   const { language } = useLanguage();
-  
-  // Count job listings for this company
-  const jobCount = useMemo(() => {
-    return jobs.filter(job => job.company === company.name).length;
-  }, [company.name]);
   
   const translations = {
     verified: {
@@ -83,10 +77,9 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
               {company.industry}
             </Badge>
             
-            {/* Display job count if greater than 0 */}
-            {jobCount > 0 && (
+            {company.openPositions > 0 && (
               <Badge variant="secondary" className="ml-2 text-[11px] bg-wang-blue/10 text-wang-blue">
-                {jobCount} {translations.openPositions[language === 'th' ? 'th' : 'en']}
+                {company.openPositions} {translations.openPositions[language]}
               </Badge>
             )}
           </div>
@@ -113,7 +106,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
           <div className="flex items-center text-gray-500">
             <Calendar size={14} className="mr-1" />
             <span>
-              {language === 'th' ? translations.founded.th : translations.founded.en}&nbsp;
+              {translations.founded[language]}&nbsp;
               {company.founded}
             </span>
           </div>
