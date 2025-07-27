@@ -94,6 +94,6 @@ export function useJobSearch({ jobs, debounceMs = 300 }: UseJobSearchOptions) {
     handleCategoryChange,
     handleTypeChange,
     clearFilters,
-    hasActiveFilters: state.searchTerm || state.selectedCategories.length > 0 || state.selectedTypes.length > 0,
+    hasActiveFilters: !!state.searchTerm || state.selectedCategories.length > 0 || state.selectedTypes.length > 0,
   };
 }

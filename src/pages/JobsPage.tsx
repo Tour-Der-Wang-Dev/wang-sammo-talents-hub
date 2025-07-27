@@ -27,6 +27,8 @@ const JobsPage = () => {
     handleSearch,
     handleCategoryChange,
     handleTypeChange,
+    clearFilters,
+    hasActiveFilters,
   } = useJobSearch({ jobs: jobs || [] });
 
   const {
@@ -77,6 +79,8 @@ const JobsPage = () => {
               selectedTypes={selectedTypes}
               onCategoryChange={handleCategoryChange}
               onTypeChange={handleTypeChange}
+              onClearFilters={clearFilters}
+              hasActiveFilters={hasActiveFilters}
             />
           </div>
           
@@ -87,6 +91,8 @@ const JobsPage = () => {
                 selectedTypes={selectedTypes}
                 onCategoryChange={handleCategoryChange}
                 onTypeChange={handleTypeChange}
+                onClearFilters={clearFilters}
+                hasActiveFilters={hasActiveFilters}
               />
             </div>
             

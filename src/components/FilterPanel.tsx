@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -13,6 +12,8 @@ interface FilterPanelProps {
   selectedTypes: string[];
   onCategoryChange: (category: string, checked: boolean) => void;
   onTypeChange: (type: string, checked: boolean) => void;
+  onClearFilters: () => void;
+  hasActiveFilters: boolean;
 }
 
 const FilterPanel: React.FC<FilterPanelProps> = ({
@@ -20,14 +21,24 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   selectedTypes,
   onCategoryChange,
   onTypeChange,
+  onClearFilters,
+  hasActiveFilters,
 }) => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = React.useState(false);
 
   const FilterContent = () => (
     <>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="font-prompt text-lg font-medium">ตัวกรอง</h3>
+        {hasActiveFilters && (
+          <Button variant="ghost" size="sm" onClick={onClearFilters} className="text-xs text-wang-orange hover:text-orange-600">
+            ล้างทั้งหมด
+          </Button>
+        )}
+      </div>
       <div className="mb-6">
-        <h3 className="font-prompt text-lg font-medium mb-3">หมวดหมู่งาน</h3>
+        <h3 className="font-prompt text-base font-medium mb-3">หมวดหมู่งาน</h3>
         <div className="space-y-2">
           {categories.map((category) => (
             <div key={category} className="flex items-center space-x-2">
@@ -50,7 +61,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       </div>
 
       <div className="mb-6">
-        <h3 className="font-prompt text-lg font-medium mb-3">ประเภทงาน</h3>
+        <h3 className="font-prompt text-base font-medium mb-3">ประเภทงาน</h3>
         <div className="space-y-2">
           {employmentTypes.map((type) => (
             <div key={type} className="flex items-center space-x-2">
@@ -74,7 +85,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
     </>
   );
 
-  // Mobile filter drawer
   if (isMobile) {
     return (
       <div className="mb-4">
@@ -107,7 +117,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
     );
   }
 
-  // Desktop filter panel
   return (
     <div className="bg-white rounded-lg shadow-sm border p-5 sticky top-24">
       <FilterContent />
