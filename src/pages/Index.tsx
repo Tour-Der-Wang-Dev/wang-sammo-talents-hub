@@ -132,7 +132,7 @@ const Index = () => {
             <p className="text-gray-600 mb-4 md:mb-6 max-w-2xl mx-auto text-sm md:text-base">
               เข้าถึงผู้สมัครงานที่มีคุณภาพในพื้นที่วังสามหมอ เพิ่มโอกาสในการได้พนักงานที่เหมาะสมกับธุรกิจของคุณ
             </p>
-            <Link to="/job/create">
+            <Link to="/post-job">
               <Button className="bg-wang-orange hover:bg-orange-600 text-white font-prompt py-2 px-4 sm:py-3 sm:px-6 rounded-md">
                 ลงประกาศรับสมัครงาน
               </Button>

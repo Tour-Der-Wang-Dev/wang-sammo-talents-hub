@@ -8,29 +8,36 @@ import { HelmetProvider } from 'react-helmet-async';
 import SitemapGenerator from './components/SitemapGenerator';
 import { ErrorBoundary } from './hooks/use-error-boundary';
 
-// Lazy load pages for better performance with more descriptive chunk names
-const Index = lazy(() => import("./pages/Index" /* webpackChunkName: "index-page" */));
-const JobsPage = lazy(() => import("./pages/JobsPage" /* webpackChunkName: "jobs-page" */));
-const JobDetailPage = lazy(() => import("./pages/JobDetailPage" /* webpackChunkName: "job-detail-page" */));
-const JobPostingPage = lazy(() => import("./pages/JobPostingPage" /* webpackChunkName: "job-posting-page" */));
-const SettingsPage = lazy(() => import("./pages/SettingsPage" /* webpackChunkName: "settings-page" */));
-const CompaniesPage = lazy(() => import("./pages/CompaniesPage" /* webpackChunkName: "companies-page" */));
-const CompanyDetailPage = lazy(() => import("./pages/CompanyDetailPage" /* webpackChunkName: "company-detail-page" */));
-const CompanyRegisterPage = lazy(() => import("./pages/CompanyRegisterPage" /* webpackChunkName: "company-register-page" */));
-const NotFound = lazy(() => import("./pages/NotFound" /* webpackChunkName: "not-found-page" */));
+// Lazy load pages for better performance
+const Index = lazy(() => import("./pages/Index"));
+const JobsPage = lazy(() => import("./pages/JobsPage"));
+const JobDetailPage = lazy(() => import("./pages/JobDetailPage"));
+const JobPostingPage = lazy(() => import("./pages/JobPostingPage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const CompaniesPage = lazy(() => import("./pages/CompaniesPage"));
+const CompanyDetailPage = lazy(() => import("./pages/CompanyDetailPage"));
+const CompanyRegisterPage = lazy(() => import("./pages/CompanyRegisterPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const SavedJobsPage = lazy(() => import("./pages/SavedJobsPage"));
+const JobAlertsPage = lazy(() => import("./pages/JobAlertsPage"));
+const PricingPage = lazy(() => import("./pages/PricingPage"));
+const CompanyProfilePage = lazy(() => import("./pages/CompanyProfilePage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
 
-// Improved loading component with better visual feedback
 const PageLoader = () => (
   <div className="flex h-screen w-full items-center justify-center">
     <Loader2 className="h-10 w-10 animate-spin text-wang-blue" aria-label="กำลังโหลด" />
   </div>
 );
 
-// Create QueryClient with optimized settings
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000, // 1 minute
+      staleTime: 60 * 1000,
       retry: 1,
       refetchOnWindowFocus: false,
     },
@@ -50,11 +57,20 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/jobs" element={<JobsPage />} />
                 <Route path="/job/:id" element={<JobDetailPage />} />
-                <Route path="/job/create" element={<JobPostingPage />} />
+                <Route path="/post-job" element={<JobPostingPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/companies" element={<CompaniesPage />} />
                 <Route path="/company/:id" element={<CompanyDetailPage />} />
                 <Route path="/company/register" element={<CompanyRegisterPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/saved-jobs" element={<SavedJobsPage />} />
+                <Route path="/job-alerts" element={<JobAlertsPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/company-profile" element={<CompanyProfilePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/privacy" element={<PrivacyPage />} />
+                <Route path="/terms" element={<TermsPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
