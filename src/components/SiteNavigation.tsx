@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -8,12 +7,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   Search, 
@@ -29,54 +26,27 @@ import {
   ChevronDown, 
   Languages 
 } from 'lucide-react';
-import { NavigationSection, NavigationLink } from '@/data/navigation';
+import { NavigationSection } from '@/data/navigation';
+import { useLanguage } from '@/context/LanguageContext';
 
-// Language context type
-type Language = 'th' | 'en';
-
-// Create a context for language preference
-export const LanguageContext = React.createContext<{
-  language: Language;
-  setLanguage: React.Dispatch<React.SetStateAction<Language>>;
-}>({
-  language: 'th',
-  setLanguage: () => {},
-});
-
-// Hook for accessing language context
-export const useLanguage = () => React.useContext(LanguageContext);
-
-// Helper function to get icon for navigation item
 const getIconForLink = (href: string) => {
   switch (href) {
-    case '/jobs':
-      return <Search className="h-4 w-4" />;
-    case '/profile':
-      return <User className="h-4 w-4" />;
-    case '/saved-jobs':
-      return <Bookmark className="h-4 w-4" />;
-    case '/job-alerts':
-      return <Bell className="h-4 w-4" />;
-    case '/post-job':
-      return <Briefcase className="h-4 w-4" />;
-    case '/pricing':
-      return <Package className="h-4 w-4" />;
-    case '/company-profile':
-      return <Building className="h-4 w-4" />;
-    case '/about':
-      return <Info className="h-4 w-4" />;
-    case '/contact':
-      return <Mail className="h-4 w-4" />;
+    case '/jobs': return <Search className="h-4 w-4" />;
+    case '/profile': return <User className="h-4 w-4" />;
+    case '/saved-jobs': return <Bookmark className="h-4 w-4" />;
+    case '/job-alerts': return <Bell className="h-4 w-4" />;
+    case '/post-job': return <Briefcase className="h-4 w-4" />;
+    case '/pricing': return <Package className="h-4 w-4" />;
+    case '/company-profile': return <Building className="h-4 w-4" />;
+    case '/about': return <Info className="h-4 w-4" />;
+    case '/contact': return <Mail className="h-4 w-4" />;
     case '/privacy':
-    case '/terms':
-      return <Shield className="h-4 w-4" />;
-    default:
-      return null;
+    case '/terms': return <Shield className="h-4 w-4" />;
+    default: return null;
   }
 };
 
-// Desktop Navigation Menu Component
-export const DesktopNavigation: React.FC<{ sections: NavigationSection[] }> = ({ sections }) => {
+const DesktopNavigation: React.FC<{ sections: NavigationSection[] }> = ({ sections }) => {
   const { language } = useLanguage();
   
   return (
@@ -115,17 +85,12 @@ export const DesktopNavigation: React.FC<{ sections: NavigationSection[] }> = ({
   );
 };
 
-// Mobile Navigation Menu Component (using Sheet)
-export const MobileNavigation: React.FC<{ sections: NavigationSection[] }> = ({ sections }) => {
+const MobileNavigation: React.FC<{ sections: NavigationSection[] }> = ({ sections }) => {
   const [openSections, setOpenSections] = useState<string[]>([]);
   const { language } = useLanguage();
 
   const toggleSection = (title: string) => {
-    if (openSections.includes(title)) {
-      setOpenSections(openSections.filter(t => t !== title));
-    } else {
-      setOpenSections([...openSections, title]);
-    }
+    setOpenSections(prev => prev.includes(title) ? prev.filter(t => t !== title) : [...prev, title]);
   };
 
   return (
@@ -146,12 +111,7 @@ export const MobileNavigation: React.FC<{ sections: NavigationSection[] }> = ({ 
                 aria-expanded={openSections.includes(section.title)}
               >
                 {language === 'th' ? section.title : section.titleEn}
-                <ChevronDown
-                  className={cn(
-                    "h-4 w-4 transition-transform",
-                    openSections.includes(section.title) ? "transform rotate-180" : ""
-                  )}
-                />
+                <ChevronDown className={cn("h-4 w-4 transition-transform", openSections.includes(section.title) && "rotate-180")} />
               </button>
               {openSections.includes(section.title) && (
                 <div className="pl-4 space-y-2 border-l-2 border-wang-orange">
@@ -178,32 +138,24 @@ export const MobileNavigation: React.FC<{ sections: NavigationSection[] }> = ({ 
   );
 };
 
-// Main SiteNavigation Component
 const SiteNavigation: React.FC<{ sections: NavigationSection[] }> = ({ sections }) => {
   const isMobile = useIsMobile();
-  const [language, setLanguage] = useState<Language>('th');
+  const { language, setLanguage } = useLanguage();
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage }}>
-      <div className="flex items-center gap-4">
-        {isMobile ? (
-          <MobileNavigation sections={sections} />
-        ) : (
-          <DesktopNavigation sections={sections} />
-        )}
-        
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          onClick={() => setLanguage(language === 'th' ? 'en' : 'th')}
-          className="ml-2"
-          aria-label={language === 'th' ? 'Switch to English' : 'เปลี่ยนเป็นภาษาไทย'}
-        >
-          <Languages className="h-4 w-4 mr-1" />
-          {language === 'th' ? 'EN' : 'TH'}
-        </Button>
-      </div>
-    </LanguageContext.Provider>
+    <div className="flex items-center gap-4">
+      {isMobile ? <MobileNavigation sections={sections} /> : <DesktopNavigation sections={sections} />}
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        onClick={() => setLanguage(language === 'th' ? 'en' : 'th')}
+        className="ml-2"
+        aria-label={language === 'th' ? 'Switch to English' : 'เปลี่ยนเป็นภาษาไทย'}
+      >
+        <Languages className="h-4 w-4 mr-1" />
+        {language === 'th' ? 'EN' : 'TH'}
+      </Button>
+    </div>
   );
 };
 

@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Building2, MapPin, Link as LinkIcon, CheckCircle, Users, Calendar } from 'lucide-react';
 import { Company } from '@/types/Company';
-import { useLanguage } from '@/components/SiteNavigation';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface CompanyCardProps {
   company: Company;

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { Search, X, Filter } from 'lucide-react';
 import { industries, employeeSizes } from '@/data/companies';
-import { useLanguage } from '@/components/SiteNavigation';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface CompanySearchProps {
   onSearch: (query: string, industry: string, size: string) => void;

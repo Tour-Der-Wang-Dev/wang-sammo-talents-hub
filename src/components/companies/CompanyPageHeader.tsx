@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Plus, Building2 } from 'lucide-react';
-import { useLanguage } from '@/components/SiteNavigation';
+import { useLanguage } from '@/context/LanguageContext';
 import { Badge } from '@/components/ui/badge';
 
 interface CompanyPageHeaderProps {

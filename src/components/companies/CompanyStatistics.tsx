@@ -1,8 +1,7 @@
-
 import React, { useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Building2, Users, Briefcase, CheckCircle2 } from 'lucide-react';
-import { useLanguage } from '@/components/SiteNavigation';
+import { useLanguage } from '@/context/LanguageContext';
 import { Company } from '@/types/Company';
 
 interface CompanyStatisticsProps {

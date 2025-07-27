@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { useLanguage } from '@/components/SiteNavigation';
+import { useLanguage } from '@/context/LanguageContext';
 import SEO from '@/components/SEO';
 
 const CompanyRegisterPage = () => {
