@@ -7,19 +7,29 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { jobs } from '@/data/jobs';
 import { toast } from 'sonner';
 import SEO from '@/components/SEO';
 import { generateJobPostingSchema } from '@/utils/seo';
+import { useQuery } from '@tanstack/react-query';
+import { fetchJobById } from '@/api/mockApi';
+import JobDetailSkeleton from '@/components/JobDetailSkeleton';
+import { Job } from '@/data/jobs';
 
 const JobDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   
-  // Find job by ID
-  const job = jobs.find(job => job.id === id);
+  const { data: job, isLoading, isError } = useQuery<Job | undefined, Error>({
+    queryKey: ['job', id],
+    queryFn: () => fetchJobById(id!),
+    enabled: !!id,
+  });
   
-  if (!job) {
+  if (isLoading) {
+    return <JobDetailSkeleton />;
+  }
+  
+  if (isError || !job) {
     return (
       <div className="min-h-screen flex flex-col">
         <SEO 
@@ -29,8 +39,12 @@ const JobDetailPage = () => {
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center p-8">
-            <h1 className="font-prompt text-xl sm:text-2xl font-semibold mb-4">ไม่พบประกาศงาน</h1>
-            <p className="text-gray-500 mb-6">อาจถูกลบหรือเปลี่ยนแปลงแล้ว</p>
+            <h1 className="font-prompt text-xl sm:text-2xl font-semibold mb-4">
+              {isError ? 'เกิดข้อผิดพลาด' : 'ไม่พบประกาศงาน'}
+            </h1>
+            <p className="text-gray-500 mb-6">
+              {isError ? 'ไม่สามารถโหลดข้อมูลได้' : 'อาจถูกลบหรือเปลี่ยนแปลงแล้ว'}
+            </p>
             <Button onClick={() => navigate(-1)}>กลับไปยังหน้าก่อนหน้า</Button>
           </div>
         </div>

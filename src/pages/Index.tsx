@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -6,22 +5,29 @@ import Footer from '@/components/Footer';
 import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
 import { Button } from '@/components/ui/button';
-import { jobs } from '@/data/jobs';
 import { generateWebsiteSchema, generateJobListingSchema } from '@/utils/seo';
 import SEO from '@/components/SEO';
+import { useQuery } from '@tanstack/react-query';
+import { fetchJobs } from '@/api/mockApi';
+import JobCardSkeleton from '@/components/JobCardSkeleton';
+import { Job } from '@/data/jobs';
 
 const Index = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   
+  const { data: jobsData, isLoading: isLoadingJobs } = useQuery<Job[], Error>({
+    queryKey: ['jobs'],
+    queryFn: fetchJobs,
+  });
+
   // Memoized job lists to prevent unnecessary recalculations
-  const hotJobs = useMemo(() => jobs.filter(job => job.isHot), []);
+  const hotJobs = useMemo(() => (jobsData || []).filter(job => job.isHot), [jobsData]);
   
   const recentJobs = useMemo(() => {
-    return [...jobs]
+    return [...(jobsData || [])]
       .sort((a, b) => new Date(b.datePosted).getTime() - new Date(a.datePosted).getTime())
       .slice(0, 6);
-  }, []);
+  }, [jobsData]);
 
   // Memoize the card display calculation based on screen width
   const displayCount = useMemo(() => {
@@ -93,9 +99,13 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {hotJobs.map((job) => (
-              <JobCard key={job.id} job={job} />
-            ))}
+            {isLoadingJobs ? (
+              Array.from({ length: 3 }).map((_, i) => <JobCardSkeleton key={i} />)
+            ) : (
+              hotJobs.map((job) => (
+                <JobCard key={job.id} job={job} />
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -115,9 +125,13 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {recentJobs.slice(0, displayCount).map((job) => (
-              <JobCard key={job.id} job={job} />
-            ))}
+            {isLoadingJobs ? (
+              Array.from({ length: 6 }).map((_, i) => <JobCardSkeleton key={i} />)
+            ) : (
+              recentJobs.slice(0, displayCount).map((job) => (
+                <JobCard key={job.id} job={job} />
+              ))
+            )}
           </div>
         </div>
       </section>

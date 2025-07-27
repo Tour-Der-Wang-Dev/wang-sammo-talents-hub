@@ -1,5 +1,4 @@
-
-import React, { useMemo } from 'react';
+import React, { useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -124,4 +123,4 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
   );
 };
 
-export default CompanyCard;
+export default memo(CompanyCard);

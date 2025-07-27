@@ -4,12 +4,20 @@ import Footer from '@/components/Footer';
 import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
 import FilterPanel from '@/components/FilterPanel';
-import { jobs } from '@/data/jobs';
 import { generateJobListingSchema } from '@/utils/seo';
 import SEO from '@/components/SEO';
 import { useJobSearch } from '@/hooks/use-job-search';
+import { useQuery } from '@tanstack/react-query';
+import { fetchJobs } from '@/api/mockApi';
+import JobCardSkeleton from '@/components/JobCardSkeleton';
+import { Job } from '@/data/jobs';
 
 const JobsPage = () => {
+  const { data: jobs, isLoading, isError } = useQuery<Job[], Error>({
+    queryKey: ['jobs'],
+    queryFn: fetchJobs,
+  });
+
   const {
     searchTerm,
     selectedCategories,
@@ -18,7 +26,7 @@ const JobsPage = () => {
     handleSearch,
     handleCategoryChange,
     handleTypeChange,
-  } = useJobSearch({ jobs });
+  } = useJobSearch({ jobs: jobs || [] });
 
   // Generate page title based on search parameters
   const generatePageTitle = useCallback(() => {
@@ -90,10 +98,19 @@ const JobsPage = () => {
             <div className="w-full lg:w-3/4 lg:w-4/5">
               <div className="bg-white rounded-lg shadow-sm border p-3 sm:p-4 mb-4">
                 <h2 className="text-base font-medium mb-1">ผลการค้นหา</h2>
-                <p className="text-gray-500 text-sm">พบ {filteredJobs.length} ตำแหน่งงาน</p>
+                <p className="text-gray-500 text-sm">พบ {isLoading ? '...' : filteredJobs.length} ตำแหน่งงาน</p>
               </div>
               
-              {filteredJobs.length > 0 ? (
+              {isLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  {Array.from({ length: 8 }).map((_, i) => <JobCardSkeleton key={i} />)}
+                </div>
+              ) : isError ? (
+                <div className="text-center py-8 sm:py-12 bg-white rounded-lg shadow-sm">
+                  <h3 className="text-lg font-medium mb-2">เกิดข้อผิดพลาด</h3>
+                  <p className="text-gray-500 text-sm">ไม่สามารถโหลดข้อมูลงานได้ กรุณาลองอีกครั้ง</p>
+                </div>
+              ) : filteredJobs.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   {filteredJobs.map(job => (
                     <JobCard key={job.id} job={job} />
