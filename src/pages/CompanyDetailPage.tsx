@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import JobCard from '@/components/JobCard';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/components/SiteNavigation';
 import SEO from '@/components/SEO';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCompanyById, fetchJobs } from '@/api/mockApi';

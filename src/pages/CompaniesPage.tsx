@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import Layout from '@/components/Layout';
 import CompanySearch from '@/components/CompanySearch';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/components/SiteNavigation';
 import SEO from '@/components/SEO';
 import { generateOrganizationSchema, generateWebsiteSchema } from '@/utils/seo';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';

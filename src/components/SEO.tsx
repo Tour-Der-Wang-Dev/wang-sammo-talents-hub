@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/components/SiteNavigation';
 
 /**
  * SEO component props

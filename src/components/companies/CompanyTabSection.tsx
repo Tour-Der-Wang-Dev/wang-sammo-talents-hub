@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/components/SiteNavigation';
 import CompanyCard from '@/components/CompanyCard';
 import { Company } from '@/types/Company';
 import { usePagination } from '@/hooks/use-pagination';
