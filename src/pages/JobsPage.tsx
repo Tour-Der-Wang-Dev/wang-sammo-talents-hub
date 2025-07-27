@@ -6,18 +6,13 @@ import FilterPanel from '@/components/FilterPanel';
 import { generateJobListingSchema } from '@/utils/seo';
 import SEO from '@/components/SEO';
 import { useJobSearch } from '@/hooks/use-job-search';
-import { useQuery } from '@tanstack/react-query';
-import { fetchJobs } from '@/api/mockApi';
+import { useJobs } from '@/hooks/use-jobs';
 import JobCardSkeleton from '@/components/JobCardSkeleton';
-import { Job } from '@/data/jobs';
 import { usePagination } from '@/hooks/use-pagination';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 
 const JobsPage = () => {
-  const { data: jobs, isLoading, isError } = useQuery<Job[], Error>({
-    queryKey: ['jobs'],
-    queryFn: fetchJobs,
-  });
+  const { jobs, isLoading, isError } = useJobs();
 
   const {
     searchTerm,

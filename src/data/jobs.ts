@@ -15,7 +15,7 @@ export interface Job {
   categories: string[];
 }
 
-export const jobs: Job[] = [
+export let jobs: Job[] = [
   {
     id: "1",
     title: "Tour Guide",

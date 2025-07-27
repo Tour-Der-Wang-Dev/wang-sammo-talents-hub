@@ -23,6 +23,21 @@ export const fetchJobById = (id: string): Promise<Job | undefined> => {
   });
 };
 
+export const createJob = (newJobData: Omit<Job, 'id' | 'datePosted' | 'requirements'> & { requirements: string[] }): Promise<Job> => {
+  console.log('Creating new job...', newJobData);
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const newJob: Job = {
+        ...newJobData,
+        id: (Math.random() * 10000).toString(),
+        datePosted: new Date().toISOString().split('T')[0],
+      };
+      jobs.unshift(newJob);
+      resolve(newJob);
+    }, API_DELAY);
+  });
+};
+
 export const fetchCompanies = (): Promise<Company[]> => {
   console.log('Fetching all companies...');
   return new Promise(resolve => {

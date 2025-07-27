@@ -6,26 +6,20 @@ import JobCard from '@/components/JobCard';
 import { Button } from '@/components/ui/button';
 import { generateWebsiteSchema, generateJobListingSchema } from '@/utils/seo';
 import SEO from '@/components/SEO';
-import { useQuery } from '@tanstack/react-query';
-import { fetchJobs } from '@/api/mockApi';
 import JobCardSkeleton from '@/components/JobCardSkeleton';
-import { Job } from '@/data/jobs';
+import { useJobs } from '@/hooks/use-jobs';
 
 const Index = () => {
   const navigate = useNavigate();
-  
-  const { data: jobsData, isLoading: isLoadingJobs } = useQuery<Job[], Error>({
-    queryKey: ['jobs'],
-    queryFn: fetchJobs,
-  });
+  const { jobs, isLoading: isLoadingJobs } = useJobs();
 
-  const hotJobs = useMemo(() => (jobsData || []).filter(job => job.isHot), [jobsData]);
+  const hotJobs = useMemo(() => jobs.filter(job => job.isHot), [jobs]);
   
   const recentJobs = useMemo(() => {
-    return [...(jobsData || [])]
+    return [...jobs]
       .sort((a, b) => new Date(b.datePosted).getTime() - new Date(a.datePosted).getTime())
       .slice(0, 6);
-  }, [jobsData]);
+  }, [jobs]);
 
   const displayCount = useMemo(() => {
     return typeof window !== 'undefined' && window.innerWidth < 640 ? 3 : 6;
