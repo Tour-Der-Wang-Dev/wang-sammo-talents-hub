@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useCallback } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SearchBar from '@/components/SearchBar';
@@ -8,91 +7,18 @@ import FilterPanel from '@/components/FilterPanel';
 import { jobs } from '@/data/jobs';
 import { generateJobListingSchema } from '@/utils/seo';
 import SEO from '@/components/SEO';
+import { useJobSearch } from '@/hooks/use-job-search';
 
 const JobsPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-
-  // Initialize filters from URL params - optimized with useEffect dependencies
-  useEffect(() => {
-    const category = searchParams.get('category');
-    if (category) {
-      setSelectedCategories([category]);
-    }
-    
-    const type = searchParams.get('type');
-    if (type) {
-      setSelectedTypes([type]);
-    }
-    
-    const query = searchParams.get('q');
-    if (query) {
-      setSearchTerm(query);
-    }
-  }, [searchParams]);
-
-  // Memoize filtered jobs for better performance
-  const filteredJobs = useMemo(() => {
-    let results = [...jobs];
-    
-    // Apply search term filter
-    if (searchTerm) {
-      const lowercaseSearchTerm = searchTerm.toLowerCase();
-      results = results.filter(
-        job => 
-          job.title.toLowerCase().includes(lowercaseSearchTerm) ||
-          (job.titleThai && job.titleThai.toLowerCase().includes(lowercaseSearchTerm)) ||
-          job.company.toLowerCase().includes(lowercaseSearchTerm) ||
-          job.location.toLowerCase().includes(lowercaseSearchTerm)
-      );
-    }
-    
-    // Apply category filter
-    if (selectedCategories.length > 0) {
-      results = results.filter(job => 
-        job.categories.some(category => selectedCategories.includes(category))
-      );
-    }
-    
-    // Apply job type filter
-    if (selectedTypes.length > 0) {
-      results = results.filter(job => selectedTypes.includes(job.employmentType));
-    }
-    
-    return results;
-  }, [searchTerm, selectedCategories, selectedTypes]);
-
-  // Update URL params when filters change - optimized with useEffect dependencies
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (searchTerm) params.set('q', searchTerm);
-    if (selectedCategories.length === 1) params.set('category', selectedCategories[0]);
-    if (selectedTypes.length === 1) params.set('type', selectedTypes[0]);
-    setSearchParams(params);
-  }, [searchTerm, selectedCategories, selectedTypes, setSearchParams]);
-
-  // Memoized event handlers
-  const handleSearch = useCallback((term: string) => {
-    setSearchTerm(term);
-  }, []);
-
-  const handleCategoryChange = useCallback((category: string, checked: boolean) => {
-    if (checked) {
-      setSelectedCategories(prev => [...prev, category]);
-    } else {
-      setSelectedCategories(prev => prev.filter(c => c !== category));
-    }
-  }, []);
-
-  const handleTypeChange = useCallback((type: string, checked: boolean) => {
-    if (checked) {
-      setSelectedTypes(prev => [...prev, type]);
-    } else {
-      setSelectedTypes(prev => prev.filter(t => t !== type));
-    }
-  }, []);
+  const {
+    searchTerm,
+    selectedCategories,
+    selectedTypes,
+    filteredJobs,
+    handleSearch,
+    handleCategoryChange,
+    handleTypeChange,
+  } = useJobSearch({ jobs });
 
   // Generate page title based on search parameters
   const generatePageTitle = useCallback(() => {

@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -10,6 +9,7 @@ import { companies } from '@/data/companies';
 import { jobs } from '@/data/jobs';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
+import { useCompanySearch } from '@/hooks/use-company-search';
 
 // Imported components
 import CompanyPageHeader from '@/components/companies/CompanyPageHeader';
@@ -18,10 +18,13 @@ import CompanyTabSection from '@/components/companies/CompanyTabSection';
 
 const CompaniesPage = () => {
   const { language } = useLanguage();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedIndustry, setSelectedIndustry] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  const {
+    filteredCompanies,
+    verifiedCompanies,
+    handleSearch,
+  } = useCompanySearch({ companies });
   
   // Memoized structured data for better performance
   const structuredData = useMemo(() => [
@@ -47,7 +50,7 @@ const CompaniesPage = () => {
       th: 'เกิดข้อผิดพลาด',
       en: 'Error'
     }
-  }), []);
+  }), [language]);
   
   // Handle search with validation
   const handleCompanySearch = (query: string, industry: string, size: string) => {
@@ -63,40 +66,8 @@ const CompaniesPage = () => {
     }
     
     // Set search parameters if validation passes
-    setSearchQuery(query);
-    setSelectedIndustry(industry);
-    setSelectedSize(size);
+    handleSearch(query, industry, size);
   };
-  
-  // Filter companies based on search criteria
-  const filteredCompanies = useMemo(() => {
-    let results = [...companies];
-    
-    if (searchQuery) {
-      const lowerQuery = searchQuery.toLowerCase();
-      results = results.filter(company => 
-        company.name.toLowerCase().includes(lowerQuery) || 
-        company.nameEn.toLowerCase().includes(lowerQuery) ||
-        company.description.toLowerCase().includes(lowerQuery) ||
-        company.descriptionEn.toLowerCase().includes(lowerQuery)
-      );
-    }
-    
-    if (selectedIndustry) {
-      results = results.filter(company => company.industry === selectedIndustry);
-    }
-    
-    if (selectedSize) {
-      results = results.filter(company => company.employeeCount === selectedSize);
-    }
-    
-    return results;
-  }, [searchQuery, selectedIndustry, selectedSize]);
-  
-  // Get verified companies
-  const verifiedCompanies = useMemo(() => {
-    return companies.filter(company => company.verified);
-  }, []);
   
   // Calculate total job positions
   const totalOpenPositions = useMemo(() => {
@@ -105,8 +76,8 @@ const CompaniesPage = () => {
   
   // Create SEO alternate URLs for language variants
   const alternateUrls = useMemo(() => ({
-    th: window.location.origin + '/companies?lang=th',
-    en: window.location.origin + '/companies?lang=en'
+    th: (typeof window !== 'undefined' ? window.location.origin : '') + '/companies?lang=th',
+    en: (typeof window !== 'undefined' ? window.location.origin : '') + '/companies?lang=en'
   }), []);
   
   return (
