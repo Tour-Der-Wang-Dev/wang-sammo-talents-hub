@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -85,7 +84,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="text-gray-600 hover:text-wang-orange transition-colors">
+                <Link to="/privacy" className="text-gray-600 hover:text-wang-orange transition-colors">
                   นโยบายความเป็นส่วนตัว
                 </Link>
               </li>

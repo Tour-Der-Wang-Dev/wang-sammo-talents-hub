@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
@@ -10,6 +10,8 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchJobs } from '@/api/mockApi';
 import JobCardSkeleton from '@/components/JobCardSkeleton';
 import { Job } from '@/data/jobs';
+import { usePagination } from '@/hooks/use-pagination';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 
 const JobsPage = () => {
   const { data: jobs, isLoading, isError } = useQuery<Job[], Error>({
@@ -25,7 +27,27 @@ const JobsPage = () => {
     handleSearch,
     handleCategoryChange,
     handleTypeChange,
+    hasActiveFilters,
   } = useJobSearch({ jobs: jobs || [] });
+
+  const {
+    currentPage,
+    totalPages,
+    goToPage,
+    goToNext,
+    goToPrevious,
+    pageNumbers,
+    startIndex,
+    endIndex,
+    reset: resetPagination,
+  } = usePagination({ totalItems: filteredJobs.length, itemsPerPage: 8 });
+
+  // Reset pagination when filters change
+  useEffect(() => {
+    resetPagination();
+  }, [hasActiveFilters, resetPagination]);
+
+  const paginatedJobs = filteredJobs.slice(startIndex, endIndex);
 
   const generatePageTitle = useCallback(() => {
     const parts = [];
@@ -90,12 +112,37 @@ const JobsPage = () => {
                   <h3 className="text-lg font-medium mb-2">เกิดข้อผิดพลาด</h3>
                   <p className="text-gray-500 text-sm">ไม่สามารถโหลดข้อมูลงานได้ กรุณาลองอีกครั้ง</p>
                 </div>
-              ) : filteredJobs.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                  {filteredJobs.map(job => (
-                    <JobCard key={job.id} job={job} />
-                  ))}
-                </div>
+              ) : paginatedJobs.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                    {paginatedJobs.map(job => (
+                      <JobCard key={job.id} job={job} />
+                    ))}
+                  </div>
+                  {totalPages > 1 && (
+                    <Pagination className="mt-6">
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious onClick={goToPrevious} className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'} />
+                        </PaginationItem>
+                        {pageNumbers.map((page, index) => (
+                          <PaginationItem key={index}>
+                            {typeof page === 'string' ? (
+                              <span className="px-4 py-2">...</span>
+                            ) : (
+                              <PaginationLink isActive={page === currentPage} onClick={() => goToPage(page)} className="cursor-pointer">
+                                {page}
+                              </PaginationLink>
+                            )}
+                          </PaginationItem>
+                        ))}
+                        <PaginationItem>
+                          <PaginationNext onClick={goToNext} className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'} />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  )}
+                </>
               ) : (
                 <div className="text-center py-8 sm:py-12 bg-white rounded-lg shadow-sm">
                   <h3 className="text-lg font-medium mb-2">ไม่พบตำแหน่งงานที่ตรงกับเงื่อนไข</h3>
