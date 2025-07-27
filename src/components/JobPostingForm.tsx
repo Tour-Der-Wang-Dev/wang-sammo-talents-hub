@@ -18,7 +18,6 @@ import CategorizationForm from '@/components/job-posting/CategorizationForm';
 import ContactInfoForm from '@/components/job-posting/ContactInfoForm';
 import ImageUploadForm from '@/components/job-posting/ImageUploadForm';
 import AdditionalOptionsForm from '@/components/job-posting/AdditionalOptionsForm';
-import { useJobs } from '@/hooks/use-jobs';
 
 const formSchema = z.object({
   title: z.string().min(1, 'ต้องระบุชื่อตำแหน่งงาน').max(100, 'ชื่อตำแหน่งงานต้องไม่เกิน 100 ตัวอักษร'),
@@ -28,6 +27,8 @@ const formSchema = z.object({
   workLocation: z.enum(['onsite', 'remote', 'hybrid']),
   employmentType: z.string().min(1, 'ต้องระบุประเภทงาน'),
   salary: z.string().min(1, 'ต้องระบุข้อมูลเงินเดือน'),
+  salaryMin: z.number().min(0, 'เงินเดือนขั้นต่ำต้องไม่น้อยกว่า 0').optional(),
+  salaryMax: z.number().min(0, 'เงินเดือนขั้นสูงต้องไม่น้อยกว่า 0').optional(),
   description: z.string().min(1, 'ต้องระบุรายละเอียดงาน'),
   qualifications: z.string().min(1, 'ต้องระบุคุณสมบัติ'),
   responsibilities: z.string().min(1, 'ต้องระบุหน้าที่ความรับผิดชอบ'),
@@ -43,7 +44,6 @@ type FormValues = z.infer<typeof formSchema>;
 
 const JobPostingForm = () => {
   const navigate = useNavigate();
-  const { createJob } = useJobs();
   const [activeTab, setActiveTab] = useState('details');
   const [logoImage, setLogoImage] = useState<string | null>(null);
   const [jobImages, setJobImages] = useState<string[]>([]);
@@ -71,35 +71,19 @@ const JobPostingForm = () => {
   });
 
   const onSubmit = async (values: FormValues) => {
-    const toastId = toast.loading("กำลังลงประกาศงาน...");
     try {
-      const newJobData = {
-        title: values.title,
-        titleThai: values.titleThai,
-        company: values.company,
-        location: values.location,
-        salary: values.salary,
-        employmentType: values.employmentType as any,
-        description: values.description,
-        descriptionThai: values.description,
-        requirements: values.qualifications.split('\n').filter(Boolean),
-        isHot: values.isHot,
-        categories: values.categories,
-        companyLogo: logoImage || undefined,
-      };
-
-      await createJob(newJobData);
+      console.log('Form values:', values);
+      console.log('Logo:', logoImage);
+      console.log('Job images:', jobImages);
       
       toast.success("ลงประกาศสำเร็จ!", {
-        id: toastId,
-        description: "ประกาศงานของคุณได้ถูกเพิ่มเข้าระบบแล้ว",
+        description: "ประกาศงานของคุณจะถูกตรวจสอบก่อนที่จะแสดงบนเว็บไซต์",
       });
       
       navigate('/jobs');
     } catch (error) {
       console.error('Error submitting job posting:', error);
       toast.error("เกิดข้อผิดพลาด", {
-        id: toastId,
         description: "ไม่สามารถลงประกาศได้ กรุณาลองอีกครั้ง",
       });
     }

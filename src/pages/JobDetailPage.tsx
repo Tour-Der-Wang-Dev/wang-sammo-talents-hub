@@ -9,14 +9,20 @@ import Layout from '@/components/Layout';
 import { toast } from 'sonner';
 import SEO from '@/components/SEO';
 import { generateJobPostingSchema } from '@/utils/seo';
-import { useJob } from '@/hooks/use-jobs';
+import { useQuery } from '@tanstack/react-query';
+import { fetchJobById } from '@/api/mockApi';
 import JobDetailSkeleton from '@/components/JobDetailSkeleton';
+import { Job } from '@/data/jobs';
 
 const JobDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   
-  const { data: job, isLoading, isError } = useJob(id!);
+  const { data: job, isLoading, isError } = useQuery<Job | undefined, Error>({
+    queryKey: ['job', id],
+    queryFn: () => fetchJobById(id!),
+    enabled: !!id,
+  });
   
   if (isLoading) return <JobDetailSkeleton />;
   
