@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import CompanySearch from '@/components/CompanySearch';
 import { useLanguage } from '@/components/SiteNavigation';
 import SEO from '@/components/SEO';
@@ -12,10 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchCompanies, fetchJobs } from '@/api/mockApi';
 import { Company } from '@/types/Company';
 import CompanyCardSkeleton from '@/components/CompanyCardSkeleton';
-import CompanyCard from '@/components/CompanyCard';
 import { Skeleton } from '@/components/ui/skeleton';
-
-// Imported components
 import CompanyPageHeader from '@/components/companies/CompanyPageHeader';
 import CompanyStatistics from '@/components/companies/CompanyStatistics';
 import CompanyTabSection from '@/components/companies/CompanyTabSection';
@@ -29,16 +25,9 @@ const CompaniesPage = () => {
     queryFn: fetchCompanies,
   });
 
-  const { data: jobs, isLoading: isLoadingJobs } = useQuery({
-    queryKey: ['jobs'],
-    queryFn: fetchJobs,
-  });
+  const { data: jobs } = useQuery({ queryKey: ['jobs'], queryFn: fetchJobs });
 
-  const {
-    filteredCompanies,
-    verifiedCompanies,
-    handleSearch,
-  } = useCompanySearch({ companies: companies || [] });
+  const { filteredCompanies, verifiedCompanies, handleSearch } = useCompanySearch({ companies: companies || [] });
   
   const structuredData = useMemo(() => [
     generateWebsiteSchema(),
@@ -69,15 +58,13 @@ const CompaniesPage = () => {
   }), []);
   
   return (
-    <>
+    <Layout>
       <SEO
         title={translations.pageTitle[language]}
         description={translations.pageDescription[language]}
         structuredData={structuredData}
         alternateUrls={alternateUrls}
       />
-
-      <Header />
 
       <div className="container mx-auto px-4 py-8">
         {error && (
@@ -118,9 +105,7 @@ const CompaniesPage = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
-    </>
+    </Layout>
   );
 };
 

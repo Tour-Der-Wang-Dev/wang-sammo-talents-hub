@@ -1,8 +1,6 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import JobPostingForm from '@/components/JobPostingForm';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -12,15 +10,13 @@ const JobPostingPage = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <Layout className="bg-gray-50">
       <Helmet>
         <title>ลงประกาศรับสมัครงาน | ที่นี่ วังสามหมอ</title>
         <meta name="description" content="ลงประกาศรับสมัครพนักงานในพื้นที่วังสามหมอ เข้าถึงผู้สมัครงานที่มีคุณภาพในท้องถิ่น" />
       </Helmet>
       
-      <Header />
-      
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Button 
             variant="ghost" 
@@ -44,10 +40,8 @@ const JobPostingPage = () => {
           
           <JobPostingForm />
         </div>
-      </main>
-      
-      <Footer />
-    </div>
+      </div>
+    </Layout>
   );
 };
 

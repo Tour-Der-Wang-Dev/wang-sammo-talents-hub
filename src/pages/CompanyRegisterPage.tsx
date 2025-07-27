@@ -1,8 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/components/SiteNavigation';
@@ -12,7 +10,7 @@ const CompanyRegisterPage = () => {
   const { language } = useLanguage();
   
   return (
-    <>
+    <Layout>
       <SEO 
         title={language === 'th' ? 'ลงทะเบียนบริษัท' : 'Register Company'}
         description={language === 'th' 
@@ -20,10 +18,7 @@ const CompanyRegisterPage = () => {
           : 'Register your company to post jobs in Wang Sam Mo'}
       />
       
-      <Header />
-      
       <div className="container mx-auto px-4 py-8">
-        {/* Back button */}
         <div className="mb-6">
           <Link to="/companies" className="inline-flex items-center text-gray-600 hover:text-wang-blue">
             <ArrowLeft size={16} className="mr-1" />
@@ -59,9 +54,7 @@ const CompanyRegisterPage = () => {
           </div>
         </div>
       </div>
-      
-      <Footer />
-    </>
+    </Layout>
   );
 };
 

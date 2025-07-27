@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
 import FilterPanel from '@/components/FilterPanel';
@@ -28,41 +27,25 @@ const JobsPage = () => {
     handleTypeChange,
   } = useJobSearch({ jobs: jobs || [] });
 
-  // Generate page title based on search parameters
   const generatePageTitle = useCallback(() => {
     const parts = [];
-    
-    if (searchTerm) {
-      parts.push(`"${searchTerm}"`);
-    }
-    
-    if (selectedCategories.length > 0) {
-      parts.push(selectedCategories.join(', '));
-    }
-    
-    if (selectedTypes.length > 0) {
-      parts.push(selectedTypes.join(', '));
-    }
-    
-    return parts.length > 0 
-      ? `งานในกลุ่ม ${parts.join(' ')}` 
-      : 'ค้นหางานทั้งหมด';
+    if (searchTerm) parts.push(`"${searchTerm}"`);
+    if (selectedCategories.length > 0) parts.push(selectedCategories.join(', '));
+    if (selectedTypes.length > 0) parts.push(selectedTypes.join(', '));
+    return parts.length > 0 ? `งานในกลุ่ม ${parts.join(' ')}` : 'ค้นหางานทั้งหมด';
   }, [searchTerm, selectedCategories, selectedTypes]);
 
-  // Structured data for job listings
   const structuredData = generateJobListingSchema(filteredJobs);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <Layout className="bg-gray-50">
       <SEO 
         title={generatePageTitle()}
         description={`ค้นหางานในวังสามหมอ${searchTerm ? ' สำหรับ ' + searchTerm : ''} - พบ ${filteredJobs.length} ตำแหน่งงาน`}
         structuredData={structuredData}
       />
-      <Header />
       
-      {/* Search Bar Section - Optimized for mobile */}
-      <section className="bg-gray-50 py-4 sm:py-6">
+      <section className="py-4 sm:py-6">
         <div className="container mx-auto px-4">
           <h1 className="font-prompt text-xl sm:text-2xl font-bold text-center mb-3 sm:mb-4">
             ค้นหางาน
@@ -71,7 +54,6 @@ const JobsPage = () => {
         </div>
       </section>
       
-      {/* Main Content - Better mobile layout */}
       <section className="py-4 sm:py-6 flex-grow">
         <div className="container mx-auto px-4">
           <div className="lg:hidden mb-3">
@@ -84,7 +66,6 @@ const JobsPage = () => {
           </div>
           
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
-            {/* Filter Sidebar - Desktop Only */}
             <div className="hidden lg:block w-1/4 lg:w-1/5">
               <FilterPanel 
                 selectedCategories={selectedCategories}
@@ -94,7 +75,6 @@ const JobsPage = () => {
               />
             </div>
             
-            {/* Job Listings */}
             <div className="w-full lg:w-3/4 lg:w-4/5">
               <div className="bg-white rounded-lg shadow-sm border p-3 sm:p-4 mb-4">
                 <h2 className="text-base font-medium mb-1">ผลการค้นหา</h2>
@@ -128,9 +108,7 @@ const JobsPage = () => {
           </div>
         </div>
       </section>
-      
-      <Footer />
-    </div>
+    </Layout>
   );
 };
 

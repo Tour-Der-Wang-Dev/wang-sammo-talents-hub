@@ -1,25 +1,18 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 
 const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
+    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      
+    <Layout>
       <div className="flex-grow flex items-center justify-center">
         <div className="text-center max-w-md p-8">
           <h1 className="font-prompt text-4xl font-bold mb-4">404</h1>
@@ -32,9 +25,7 @@ const NotFound = () => {
           </Button>
         </div>
       </div>
-      
-      <Footer />
-    </div>
+    </Layout>
   );
 };
 
