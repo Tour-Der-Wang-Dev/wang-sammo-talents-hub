@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
-import { toast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -80,8 +79,7 @@ const JobPostingForm = () => {
       // TODO: Connect to Supabase for job posting
       // This will be implemented in the next phase
       
-      toast({
-        title: "ลงประกาศสำเร็จ!",
+      toast.success("ลงประกาศสำเร็จ!", {
         description: "ประกาศงานของคุณจะถูกตรวจสอบก่อนที่จะแสดงบนเว็บไซต์",
       });
       
@@ -89,10 +87,8 @@ const JobPostingForm = () => {
       navigate('/jobs');
     } catch (error) {
       console.error('Error submitting job posting:', error);
-      toast({
-        title: "เกิดข้อผิดพลาด",
+      toast.error("เกิดข้อผิดพลาด", {
         description: "ไม่สามารถลงประกาศได้ กรุณาลองอีกครั้ง",
-        variant: "destructive",
       });
     }
   };

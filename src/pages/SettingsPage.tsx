@@ -3,12 +3,11 @@ import { Button } from '@/components/ui/button';
 import SettingCard from '@/components/SettingCard';
 import Layout from '@/components/Layout';
 import SEO from '@/components/SEO';
-import { toast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 const SettingsPage: React.FC = () => {
   const handleEdit = (settingName: string) => {
-    toast({
-      title: "กำลังแก้ไขการตั้งค่า",
+    toast.info("กำลังแก้ไขการตั้งค่า", {
       description: `คุณกำลังแก้ไข${settingName}`,
     });
   };

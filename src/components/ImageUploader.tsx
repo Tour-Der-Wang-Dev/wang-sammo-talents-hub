@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Upload, X } from 'lucide-react';
 import OptimizedImage from './OptimizedImage';
-import { toast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 interface ImageUploaderProps {
   image?: string | null;
@@ -28,10 +27,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     
     const file = e.target.files[0];
     if (file.size > 2 * 1024 * 1024) {
-      toast({
-        title: "ไฟล์มีขนาดใหญ่เกินไป",
+      toast.error("ไฟล์มีขนาดใหญ่เกินไป", {
         description: "ขนาดไฟล์ต้องไม่เกิน 2MB",
-        variant: "destructive",
       });
       return;
     }
@@ -59,20 +56,16 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     const currentImages = images || [];
     
     if (currentImages.length + files.length > maxImages) {
-      toast({
-        title: "จำนวนรูปภาพมากเกินไป",
+      toast.error("จำนวนรูปภาพมากเกินไป", {
         description: `คุณสามารถอัปโหลดได้สูงสุด ${maxImages} รูปเท่านั้น`,
-        variant: "destructive",
       });
       return;
     }
     
     for (const file of files) {
       if (file.size > 2 * 1024 * 1024) {
-        toast({
-          title: "ไฟล์มีขนาดใหญ่เกินไป",
+        toast.error("ไฟล์มีขนาดใหญ่เกินไป", {
           description: "ขนาดไฟล์แต่ละรูปต้องไม่เกิน 2MB",
-          variant: "destructive",
         });
         return;
       }
