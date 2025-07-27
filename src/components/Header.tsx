@@ -10,7 +10,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const { language } = useLanguage();
+  const { t } = useLanguage();
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -22,20 +22,10 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const translations = {
-    home: { th: 'หน้าแรก', en: 'Home' },
-    jobs: { th: 'ตำแหน่งงาน', en: 'Jobs' },
-    companies: { th: 'บริษัท', en: 'Companies' },
-    login: { th: 'เข้าสู่ระบบ', en: 'Login' },
-    postJob: { th: 'ลงประกาศงาน', en: 'Post a Job' },
-    openMenu: { th: 'เปิดเมนู', en: 'Open menu' },
-    closeMenu: { th: 'ปิดเมนู', en: 'Close menu' },
-  };
-
   const navLinks = [
-    { to: '/', label: translations.home[language] },
-    { to: '/jobs', label: translations.jobs[language] },
-    { to: '/companies', label: translations.companies[language] },
+    { to: '/', label: t('nav.home') },
+    { to: '/jobs', label: t('nav.jobs') },
+    { to: '/companies', label: t('nav.companies') },
   ];
 
   return (
@@ -43,9 +33,9 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/lovable-uploads/dbc20659-751f-4e70-9ce3-49e4dc99bc25.png" alt="ที่นี่ วังสามหมอ" className="h-8 md:h-10" loading="eager" width="40" height="40" />
+            <img src="/lovable-uploads/dbc20659-751f-4e70-9ce3-49e4dc99bc25.png" alt={t('siteTitle')} className="h-8 md:h-10" loading="eager" width="40" height="40" />
             <div className="flex flex-col">
-              <span className="text-base md:text-lg font-prompt font-bold text-wang-blue">ที่นี่ วังสามหมอ</span>
+              <span className="text-base md:text-lg font-prompt font-bold text-wang-blue">{t('siteTitle')}</span>
               <span className="text-xs text-gray-500">TOUR DER WANG</span>
             </div>
           </Link>
@@ -62,16 +52,16 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="outline" className="font-prompt" size="sm">
               <LogIn className="h-4 w-4 mr-2" />
-              {translations.login[language]}
+              {t('nav.login')}
             </Button>
             <Button className="bg-wang-orange hover:bg-orange-600 font-prompt">
-              {translations.postJob[language]}
+              {t('nav.postJob')}
             </Button>
           </div>
 
           <div className="flex items-center space-x-2 md:hidden">
             <SiteNavigation sections={navigationStructure} />
-            <button className="p-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label={isMenuOpen ? translations.closeMenu[language] : translations.openMenu[language]}>
+            <button className="p-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}>
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -89,10 +79,10 @@ const Header = () => {
             <div className="flex flex-col space-y-3 mt-4 pt-4 border-t">
               <Button variant="outline" className="font-prompt w-full">
                 <LogIn className="h-4 w-4 mr-2" />
-                {translations.login[language]}
+                {t('nav.login')}
               </Button>
               <Button className="bg-wang-orange hover:bg-orange-600 font-prompt w-full">
-                {translations.postJob[language]}
+                {t('nav.postJob')}
               </Button>
             </div>
           </div>

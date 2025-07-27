@@ -35,7 +35,7 @@ const getIconForLink = (href: string) => {
 };
 
 const DesktopNavigation: React.FC<{ sections: NavigationSection[] }> = ({ sections }) => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   
   return (
     <NavigationMenu className="hidden md:flex">
@@ -75,7 +75,7 @@ const DesktopNavigation: React.FC<{ sections: NavigationSection[] }> = ({ sectio
 
 const MobileNavigation: React.FC<{ sections: NavigationSection[] }> = ({ sections }) => {
   const [openSections, setOpenSections] = useState<string[]>([]);
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   const toggleSection = (title: string) => {
     setOpenSections(prev => prev.includes(title) ? prev.filter(t => t !== title) : [...prev, title]);
@@ -85,7 +85,7 @@ const MobileNavigation: React.FC<{ sections: NavigationSection[] }> = ({ section
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" size="sm" className="md:hidden">
-          <span className="sr-only">Toggle menu</span>
+          <span className="sr-only">{t('nav.openMenu')}</span>
           <ChevronDown className="h-4 w-4" />
         </Button>
       </SheetTrigger>

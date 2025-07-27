@@ -21,16 +21,12 @@ const SEO: React.FC<SEOProps> = ({
   children,
   alternateUrls,
 }) => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   
-  const siteTitle = language === 'th' ? 'ที่นี่ วังสามหมอ' : 'Wang Sam Mo Jobs';
+  const siteTitle = t('siteTitle');
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   
-  const defaultDescription = language === 'th' 
-    ? 'แหล่งรวมตำแหน่งงานในพื้นที่วังสามหมอและบริเวณใกล้เคียง เชื่อมต่อคนหางานกับนายจ้างในภาคการท่องเที่ยวและบริการ'
-    : 'The premier job board for Wang Sam Mo area, connecting job seekers with employers in tourism and service industries.';
-  
-  const metaDescription = description || defaultDescription;
+  const metaDescription = description || t('siteDescription');
   const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : '');
   
   return (

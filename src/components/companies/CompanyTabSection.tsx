@@ -13,7 +13,7 @@ interface CompanyTabSectionProps {
 }
 
 const CompanyTabSection: React.FC<CompanyTabSectionProps> = ({ companies, filteredCompanies, verifiedCompanies }) => {
-  const { language } = useLanguage();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('all');
 
   const activeCompanyList = useMemo(() => {
@@ -27,17 +27,10 @@ const CompanyTabSection: React.FC<CompanyTabSectionProps> = ({ companies, filter
   const paginatedCompanies = useMemo(() => activeCompanyList.slice(startIndex, endIndex), [activeCompanyList, startIndex, endIndex]);
 
   useEffect(() => { reset(); }, [activeTab, reset]);
-
-  const translations = {
-    all: { th: 'บริษัททั้งหมด', en: 'All Companies' },
-    search: { th: 'ผลการค้นหา', en: 'Search Results' },
-    verified: { th: 'บริษัทที่ยืนยันแล้ว', en: 'Verified Companies' },
-    noResults: { th: 'ไม่พบผลลัพธ์', en: 'No results found' }
-  };
   
   const renderCompanyGrid = (companyList: Company[]) => {
     if (companyList.length === 0) {
-      return <div className="text-center py-12 bg-gray-50 rounded-lg"><p className="text-gray-600">{translations.noResults[language]}</p></div>;
+      return <div className="text-center py-12 bg-gray-50 rounded-lg"><p className="text-gray-600">{t('companyTabs.noResults')}</p></div>;
     }
     return (
       <>
@@ -65,9 +58,9 @@ const CompanyTabSection: React.FC<CompanyTabSectionProps> = ({ companies, filter
     <div className="mb-6">
       <Tabs defaultValue="all" onValueChange={setActiveTab}>
         <TabsList className="mb-6 bg-gray-100 p-1 rounded-lg">
-          <TabsTrigger value="all" className="flex-1 data-[state=active]:bg-white data-[state=active]:text-wang-blue">{translations.all[language]} ({companies.length})</TabsTrigger>
-          {filteredCompanies.length > 0 && <TabsTrigger value="filtered" className="flex-1 data-[state=active]:bg-white data-[state=active]:text-wang-blue">{translations.search[language]} ({filteredCompanies.length})</TabsTrigger>}
-          <TabsTrigger value="verified" className="flex-1 data-[state=active]:bg-white data-[state=active]:text-wang-blue">{translations.verified[language]} ({verifiedCompanies.length})</TabsTrigger>
+          <TabsTrigger value="all" className="flex-1 data-[state=active]:bg-white data-[state=active]:text-wang-blue">{t('companyTabs.all')} ({companies.length})</TabsTrigger>
+          {filteredCompanies.length > 0 && <TabsTrigger value="filtered" className="flex-1 data-[state=active]:bg-white data-[state=active]:text-wang-blue">{t('companyTabs.searchResults')} ({filteredCompanies.length})</TabsTrigger>}
+          <TabsTrigger value="verified" className="flex-1 data-[state=active]:bg-white data-[state=active]:text-wang-blue">{t('companyTabs.verified')} ({verifiedCompanies.length})</TabsTrigger>
         </TabsList>
         <TabsContent value="all">{renderCompanyGrid(paginatedCompanies)}</TabsContent>
         <TabsContent value="filtered">{renderCompanyGrid(paginatedCompanies)}</TabsContent>

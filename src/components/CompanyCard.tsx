@@ -11,15 +11,7 @@ interface CompanyCardProps {
 }
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
-  const { language } = useLanguage();
-  
-  const translations = {
-    verified: { th: 'ยืนยันแล้ว', en: 'Verified' },
-    openPositions: { th: 'ตำแหน่งงาน', en: 'open positions' },
-    viewDetails: { th: 'ดูรายละเอียด', en: 'View details' },
-    founded: { th: 'ก่อตั้ง', en: 'Founded' },
-    employees: { th: 'พนักงาน', en: 'Employees' }
-  };
+  const { language, t } = useLanguage();
   
   return (
     <Link to={`/company/${company.id}`} className="block transition-transform hover:scale-[1.01] active:scale-[0.99]">
@@ -34,7 +26,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
             <div className="absolute top-3 right-3">
               <Badge className="bg-wang-blue text-white flex items-center gap-1">
                 <CheckCircle size={14} />
-                <span className="text-xs">{translations.verified[language]}</span>
+                <span className="text-xs">{t('companyCard.verified')}</span>
               </Badge>
             </div>
           )}
@@ -47,18 +39,18 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
             <Badge variant="outline" className="text-[11px] bg-gray-50">{company.industry}</Badge>
             {company.openPositions > 0 && (
               <Badge variant="secondary" className="ml-2 text-[11px] bg-wang-blue/10 text-wang-blue">
-                {company.openPositions} {translations.openPositions[language]}
+                {company.openPositions} {t('companyCard.openPositions')}
               </Badge>
             )}
           </div>
           <div className="space-y-2">
             <div className="flex items-center text-sm text-gray-600"><MapPin size={16} className="mr-2 flex-shrink-0" /><span className="line-clamp-1">{company.location}</span></div>
-            <div className="flex items-center text-sm text-gray-600"><Users size={16} className="mr-2 flex-shrink-0" /><span>{company.employeeCount} {translations.employees[language]}</span></div>
+            <div className="flex items-center text-sm text-gray-600"><Users size={16} className="mr-2 flex-shrink-0" /><span>{company.employeeCount} {t('companyCard.employees')}</span></div>
           </div>
         </CardContent>
         <CardFooter className="bg-gray-50 px-4 py-3 text-sm border-t flex justify-between">
-          <div className="flex items-center text-wang-orange font-medium"><LinkIcon size={16} className="mr-1" /><span>{translations.viewDetails[language]}</span></div>
-          <div className="flex items-center text-gray-500"><Calendar size={14} className="mr-1" /><span>{translations.founded[language]}&nbsp;{company.founded}</span></div>
+          <div className="flex items-center text-wang-orange font-medium"><LinkIcon size={16} className="mr-1" /><span>{t('companyCard.viewDetails')}</span></div>
+          <div className="flex items-center text-gray-500"><Calendar size={14} className="mr-1" /><span>{t('companyCard.founded')}&nbsp;{company.founded}</span></div>
         </CardFooter>
       </Card>
     </Link>

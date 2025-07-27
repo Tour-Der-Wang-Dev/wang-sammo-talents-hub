@@ -17,7 +17,7 @@ import CompanyStatistics from '@/components/companies/CompanyStatistics';
 import CompanyTabSection from '@/components/companies/CompanyTabSection';
 
 const CompaniesPage = () => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const [error, setError] = useState<string | null>(null);
 
   const { data: companies, isLoading: isLoadingCompanies } = useQuery<Company[], Error>({
@@ -31,15 +31,8 @@ const CompaniesPage = () => {
   
   const structuredData = useMemo(() => [
     generateWebsiteSchema(),
-    generateOrganizationSchema('ที่นี่ วังสามหมอ', 'https://lovable.dev/opengraph-image-p98pqg.png')
-  ], []);
-
-  const translations = useMemo(() => ({
-    pageTitle: { th: 'บริษัทที่เปิดรับสมัครงาน', en: 'Companies Hiring' },
-    pageDescription: { th: 'ค้นหาบริษัทที่กำลังเปิดรับสมัครงานในวังสามหมอ', en: 'Find companies currently hiring in Wang Sam Mo' },
-    registerCompany: { th: 'ลงทะเบียนบริษัท', en: 'Register Company' },
-    errorTitle: { th: 'เกิดข้อผิดพลาด', en: 'Error' }
-  }), []);
+    generateOrganizationSchema(t('siteTitle'), 'https://lovable.dev/opengraph-image-p98pqg.png')
+  ], [t]);
   
   const handleCompanySearch = (query: string, industry: string, size: string) => {
     setError(null);
@@ -60,8 +53,8 @@ const CompaniesPage = () => {
   return (
     <Layout>
       <SEO
-        title={translations.pageTitle[language]}
-        description={translations.pageDescription[language]}
+        title={t('companyPage.title')}
+        description={t('companyPage.description')}
         structuredData={structuredData}
         alternateUrls={alternateUrls}
       />
@@ -70,15 +63,12 @@ const CompaniesPage = () => {
         {error && (
           <Alert variant="destructive" className="mb-6">
             <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>{translations.errorTitle[language]}</AlertTitle>
+            <AlertTitle>{t('companyPage.error')}</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
         
         <CompanyPageHeader
-          title={translations.pageTitle}
-          description={translations.pageDescription}
-          registerLinkText={translations.registerCompany}
           totalCompanies={(companies || []).length}
           totalJobs={totalOpenPositions}
         />

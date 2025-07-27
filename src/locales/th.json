@@ -1,0 +1,77 @@
+{
+  "siteTitle": "ที่นี่ วังสามหมอ",
+  "siteDescription": "แหล่งรวมตำแหน่งงานในพื้นที่วังสามหมอและบริเวณใกล้เคียง เชื่อมต่อคนหางานกับนายจ้างในภาคการท่องเที่ยวและบริการ",
+  "nav": {
+    "home": "หน้าแรก",
+    "jobs": "ตำแหน่งงาน",
+    "companies": "บริษัท",
+    "login": "เข้าสู่ระบบ",
+    "postJob": "ลงประกาศงาน",
+    "openMenu": "เปิดเมนู",
+    "closeMenu": "ปิดเมนู"
+  },
+  "siteNav": {
+    "jobSeeker": "หางาน",
+    "searchJobs": "ค้นหางาน",
+    "createProfile": "สร้างโปรไฟล์",
+    "savedJobs": "งานที่บันทึกไว้",
+    "jobAlerts": "แจ้งเตือนงาน",
+    "employers": "สำหรับนายจ้าง",
+    "pricingPackages": "ราคาและแพ็คเกจ",
+    "createCompanyProfile": "สร้างโปรไฟล์บริษัท",
+    "about": "เกี่ยวกับเรา",
+    "aboutUs": "เกี่ยวกับเรา",
+    "contactUs": "ติดต่อเรา",
+    "privacyPolicy": "นโยบายความเป็นส่วนตัว",
+    "termsOfUse": "ข้อกำหนดการใช้งาน"
+  },
+  "companyCard": {
+    "verified": "ยืนยันแล้ว",
+    "openPositions": "ตำแหน่งงาน",
+    "viewDetails": "ดูรายละเอียด",
+    "founded": "ก่อตั้ง",
+    "employees": "พนักงาน"
+  },
+  "companySearch": {
+    "searchPlaceholder": "ค้นหาบริษัท...",
+    "industry": "อุตสาหกรรม",
+    "companySize": "ขนาดบริษัท",
+    "all": "ทั้งหมด",
+    "clear": "ล้างการค้นหา",
+    "search": "ค้นหา",
+    "filters": "ตัวกรอง"
+  },
+  "companyPage": {
+    "title": "บริษัทที่เปิดรับสมัครงาน",
+    "description": "ค้นหาบริษัทที่กำลังเปิดรับสมัครงานในวังสามหมอ",
+    "register": "ลงทะเบียนบริษัท",
+    "error": "เกิดข้อผิดพลาด",
+    "back": "กลับไปหน้าบริษัททั้งหมด"
+  },
+  "companyDetail": {
+    "notFound": "ไม่พบข้อมูลบริษัท",
+    "about": "ข้อมูลบริษัท",
+    "jobs": "ตำแหน่งงาน",
+    "aboutCompany": "เกี่ยวกับบริษัท",
+    "openPositions": "ตำแหน่งงานที่เปิดรับ",
+    "noOpenPositions": "ไม่มีตำแหน่งงานที่เปิดรับในขณะนี้",
+    "contactInfo": "ข้อมูลติดต่อ",
+    "phone": "โทรศัพท์",
+    "website": "เว็บไซต์",
+    "socialMedia": "โซเชียลมีเดีย"
+  },
+  "companyStatistics": {
+    "stats": "สถิติ",
+    "totalCompanies": "บริษัททั้งหมด",
+    "activeJobs": "ตำแหน่งงานที่เปิดรับ",
+    "industries": "อุตสาหกรรม",
+    "popularIndustries": "อุตสาหกรรมยอดนิยม",
+    "verifiedCompanies": "บริษัทที่ยืนยันแล้ว"
+  },
+  "companyTabs": {
+    "all": "บริษัททั้งหมด",
+    "searchResults": "ผลการค้นหา",
+    "verified": "บริษัทที่ยืนยันแล้ว",
+    "noResults": "ไม่พบผลลัพธ์"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "siteTitle": "Wang Sam Mo Jobs",
+  "siteDescription": "The premier job board for the Wang Sam Mo area, connecting job seekers with employers in tourism and service industries.",
+  "nav": {
+    "home": "Home",
+    "jobs": "Jobs",
+    "companies": "Companies",
+    "login": "Login",
+    "postJob": "Post a Job",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "siteNav": {
+    "jobSeeker": "Job Seeker",
+    "searchJobs": "Search Jobs",
+    "createProfile": "Create Profile",
+    "savedJobs": "Saved Jobs",
+    "jobAlerts": "Job Alerts",
+    "employers": "Employers",
+    "pricingPackages": "Pricing & Packages",
+    "createCompanyProfile": "Create Company Profile",
+    "about": "About",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
+  },
+  "companyCard": {
+    "verified": "Verified",
+    "openPositions": "open positions",
+    "viewDetails": "View details",
+    "founded": "Founded",
+    "employees": "employees"
+  },
+  "companySearch": {
+    "searchPlaceholder": "Search companies...",
+    "industry": "Industry",
+    "companySize": "Company size",
+    "all": "All",
+    "clear": "Clear",
+    "search": "Search",
+    "filters": "Filters"
+  },
+  "companyPage": {
+    "title": "Companies Hiring",
+    "description": "Find companies currently hiring in Wang Sam Mo.",
+    "register": "Register Company",
+    "error": "Error",
+    "back": "Back to Companies"
+  },
+  "companyDetail": {
+    "notFound": "Company Not Found",
+    "about": "About",
+    "jobs": "Jobs",
+    "aboutCompany": "About the Company",
+    "openPositions": "Open Positions",
+    "noOpenPositions": "No open positions at the moment",
+    "contactInfo": "Contact Information",
+    "phone": "Phone",
+    "website": "Website",
+    "socialMedia": "Social Media"
+  },
+  "companyStatistics": {
+    "stats": "Statistics",
+    "totalCompanies": "Total Companies",
+    "activeJobs": "Active Jobs",
+    "industries": "Industries",
+    "popularIndustries": "Popular Industries",
+    "verifiedCompanies": "Verified Companies"
+  },
+  "companyTabs": {
+    "all": "All Companies",
+    "searchResults": "Search Results",
+    "verified": "Verified Companies",
+    "noResults": "No results found"
+  }
+}
