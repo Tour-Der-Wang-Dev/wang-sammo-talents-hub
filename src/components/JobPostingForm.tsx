@@ -5,19 +5,20 @@ import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import JobFormPreview from '@/components/JobFormPreview';
-import ImageUploader from '@/components/ImageUploader';
-import { employmentTypes, categories, benefits as availableBenefits } from '@/data/jobs';
 
-// Form schema validation
+import FormSection from '@/components/job-posting/FormSection';
+import BasicInfoForm from '@/components/job-posting/BasicInfoForm';
+import JobDetailsForm from '@/components/job-posting/JobDetailsForm';
+import CategorizationForm from '@/components/job-posting/CategorizationForm';
+import ContactInfoForm from '@/components/job-posting/ContactInfoForm';
+import ImageUploadForm from '@/components/job-posting/ImageUploadForm';
+import AdditionalOptionsForm from '@/components/job-posting/AdditionalOptionsForm';
+
 const formSchema = z.object({
   title: z.string().min(1, 'ต้องระบุชื่อตำแหน่งงาน').max(100, 'ชื่อตำแหน่งงานต้องไม่เกิน 100 ตัวอักษร'),
   titleThai: z.string().optional(),
@@ -33,7 +34,7 @@ const formSchema = z.object({
   responsibilities: z.string().min(1, 'ต้องระบุหน้าที่ความรับผิดชอบ'),
   categories: z.array(z.string()).min(1, 'ต้องเลือกหมวดหมู่อย่างน้อย 1 หมวด'),
   benefits: z.array(z.string()).optional(),
-  contactEmail: z.string().email('รูปแบบอีเมลไม่ถูกต้อง').optional(),
+  contactEmail: z.string().email('รูปแบบอีเมลไม่ถูกต้อง').optional().or(z.literal('')),
   contactPhone: z.string().optional(),
   applicationDeadline: z.string().optional(),
   isHot: z.boolean().default(false),
@@ -47,7 +48,6 @@ const JobPostingForm = () => {
   const [logoImage, setLogoImage] = useState<string | null>(null);
   const [jobImages, setJobImages] = useState<string[]>([]);
   
-  // Initialize form with default values
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,14 +76,10 @@ const JobPostingForm = () => {
       console.log('Logo:', logoImage);
       console.log('Job images:', jobImages);
       
-      // TODO: Connect to Supabase for job posting
-      // This will be implemented in the next phase
-      
       toast.success("ลงประกาศสำเร็จ!", {
         description: "ประกาศงานของคุณจะถูกตรวจสอบก่อนที่จะแสดงบนเว็บไซต์",
       });
       
-      // Navigate back to jobs page after submission
       navigate('/jobs');
     } catch (error) {
       console.error('Error submitting job posting:', error);
@@ -94,20 +90,22 @@ const JobPostingForm = () => {
   };
   
   const handlePreview = () => {
-    setActiveTab('preview');
+    form.trigger().then(isValid => {
+      if (isValid) {
+        setActiveTab('preview');
+      } else {
+        toast.error("ข้อมูลไม่ครบถ้วน", {
+          description: "กรุณากรอกข้อมูลในช่องที่มีเครื่องหมาย * ให้ครบถ้วน",
+        });
+      }
+    });
   };
-
-  const workLocations = [
-    { value: 'onsite', label: 'ออนไซต์ (ทำงานที่บริษัท)' },
-    { value: 'remote', label: 'รีโมท (ทำงานทางไกล)' },
-    { value: 'hybrid', label: 'ไฮบริด (ผสมผสาน)' },
-  ];
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-10">
       <TabsList className="grid grid-cols-2 w-full mb-8">
         <TabsTrigger value="details" className="font-prompt">รายละเอียดงาน</TabsTrigger>
-        <TabsTrigger value="preview" className="font-prompt">ตัวอย่าง</TabsTrigger>
+        <TabsTrigger value="preview" className="font-prompt" onClick={handlePreview}>ตัวอย่าง</TabsTrigger>
       </TabsList>
 
       <TabsContent value="details">
@@ -115,424 +113,25 @@ const JobPostingForm = () => {
           <CardContent className="pt-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="space-y-4">
-                  <h2 className="font-prompt text-xl font-semibold text-wang-blue">ข้อมูลพื้นฐาน</h2>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>ชื่อตำแหน่งงาน (ภาษาอังกฤษ) *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. Marketing Manager" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="titleThai"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>ชื่อตำแหน่งงาน (ภาษาไทย)</FormLabel>
-                          <FormControl>
-                            <Input placeholder="เช่น ผู้จัดการฝ่ายการตลาด" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="company"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>ชื่อบริษัท *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="ชื่อบริษัทของคุณ" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="location"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>สถานที่ตั้ง *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="เช่น วังสามหมอ, อุดรธานี" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="workLocation"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>รูปแบบการทำงาน *</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="เลือกรูปแบบการทำงาน" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {workLocations.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>
-                                  {option.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="employmentType"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>ประเภทงาน *</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="เลือกประเภทงาน" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {employmentTypes.map((type) => (
-                                <SelectItem key={type} value={type}>
-                                  {type}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <FormField
-                        control={form.control}
-                        name="salary"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>เงินเดือน *</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="เช่น 15,000 - 20,000 บาท หรือ ตามตกลง" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <FormField
-                      control={form.control}
-                      name="applicationDeadline"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>วันหมดเขตรับสมัคร</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="date"
-                              min={new Date().toISOString().split('T')[0]}
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-4 pt-4 border-t">
-                  <h2 className="font-prompt text-xl font-semibold text-wang-blue">รายละเอียดงาน</h2>
-                  
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>รายละเอียดงาน *</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="อธิบายเกี่ยวกับงานและบริษัทของคุณ" 
-                            className="min-h-[100px]"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                <FormSection title="ข้อมูลพื้นฐาน"><BasicInfoForm /></FormSection>
+                <FormSection title="รายละเอียดงาน"><JobDetailsForm /></FormSection>
+                <FormSection title="หมวดหมู่และสวัสดิการ"><CategorizationForm /></FormSection>
+                <FormSection title="ข้อมูลติดต่อ"><ContactInfoForm /></FormSection>
+                <FormSection title="รูปภาพ">
+                  <ImageUploadForm 
+                    logoImage={logoImage} 
+                    setLogoImage={setLogoImage} 
+                    jobImages={jobImages} 
+                    setJobImages={setJobImages} 
                   />
-                  
-                  <FormField
-                    control={form.control}
-                    name="qualifications"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>คุณสมบัติ *</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="ระบุคุณสมบัติที่ต้องการ เช่น วุฒิการศึกษา ประสบการณ์ ทักษะ" 
-                            className="min-h-[100px]"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="responsibilities"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>หน้าที่ความรับผิดชอบ *</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="ระบุหน้าที่และความรับผิดชอบหลักของตำแหน่งงาน" 
-                            className="min-h-[100px]"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                </FormSection>
+                <FormSection title="ตัวเลือกเพิ่มเติม"><AdditionalOptionsForm /></FormSection>
                 
-                <div className="space-y-4 pt-4 border-t">
-                  <h2 className="font-prompt text-xl font-semibold text-wang-blue">หมวดหมู่และสวัสดิการ</h2>
-                  
-                  <FormField
-                    control={form.control}
-                    name="categories"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>หมวดหมู่งาน *</FormLabel>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                          {categories.map((category) => (
-                            <FormField
-                              key={category}
-                              control={form.control}
-                              name="categories"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem
-                                    key={category}
-                                    className="flex flex-row items-start space-x-3 space-y-0"
-                                  >
-                                    <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(category)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...field.value, category])
-                                            : field.onChange(
-                                                field.value?.filter(
-                                                  (value) => value !== category
-                                                )
-                                              )
-                                        }}
-                                      />
-                                    </FormControl>
-                                    <FormLabel className="text-sm font-normal cursor-pointer">
-                                      {category}
-                                    </FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="benefits"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>สวัสดิการ</FormLabel>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                          {availableBenefits.map((benefit) => (
-                            <FormField
-                              key={benefit}
-                              control={form.control}
-                              name="benefits"
-                              render={({ field }) => {
-                                return (
-                                  <FormItem
-                                    key={benefit}
-                                    className="flex flex-row items-start space-x-3 space-y-0"
-                                  >
-                                    <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(benefit)}
-                                        onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([...field.value, benefit])
-                                            : field.onChange(
-                                                field.value?.filter(
-                                                  (value) => value !== benefit
-                                                )
-                                              )
-                                        }}
-                                      />
-                                    </FormControl>
-                                    <FormLabel className="text-sm font-normal cursor-pointer">
-                                      {benefit}
-                                    </FormLabel>
-                                  </FormItem>
-                                )
-                              }}
-                            />
-                          ))}
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                
-                <div className="space-y-4 pt-4 border-t">
-                  <h2 className="font-prompt text-xl font-semibold text-wang-blue">ข้อมูลติดต่อ</h2>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="contactEmail"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>อีเมลติดต่อ</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="email" 
-                              placeholder="อีเมลสำหรับติดต่อเกี่ยวกับการสมัครงาน" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="contactPhone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>เบอร์โทรติดต่อ</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="เบอร์โทรศัพท์สำหรับติดต่อ" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-4 pt-4 border-t">
-                  <h2 className="font-prompt text-xl font-semibold text-wang-blue">รูปภาพ</h2>
-                  
-                  <div>
-                    <FormLabel>โลโก้บริษัท</FormLabel>
-                    <div className="mt-2">
-                      <ImageUploader 
-                        image={logoImage} 
-                        onImageChange={setLogoImage} 
-                        maxImages={1}
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <FormLabel>รูปภาพประกอบ (สูงสุด 5 รูป)</FormLabel>
-                    <div className="mt-2">
-                      <ImageUploader 
-                        images={jobImages} 
-                        onImagesChange={setJobImages} 
-                        maxImages={5}
-                      />
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="space-y-4 pt-4 border-t">
-                  <h2 className="font-prompt text-xl font-semibold text-wang-blue">ตัวเลือกเพิ่มเติม</h2>
-                  
-                  <FormField
-                    control={form.control}
-                    name="isHot"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel className="cursor-pointer">
-                            แสดงเป็น "งานยอดนิยม"
-                          </FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                
-                <div className="flex justify-between pt-4">
-                  <Button type="button" variant="outline" onClick={() => navigate('/jobs')}>
-                    ยกเลิก
-                  </Button>
-                  
+                <div className="flex justify-between pt-6 border-t">
+                  <Button type="button" variant="outline" onClick={() => navigate('/jobs')}>ยกเลิก</Button>
                   <div className="space-x-2">
-                    <Button type="button" variant="outline" onClick={handlePreview}>
-                      ดูตัวอย่าง
-                    </Button>
-                    <Button type="submit" className="bg-wang-blue">
-                      ลงประกาศรับสมัคร
-                    </Button>
+                    <Button type="button" variant="outline" onClick={handlePreview}>ดูตัวอย่าง</Button>
+                    <Button type="submit" className="bg-wang-blue">ลงประกาศรับสมัคร</Button>
                   </div>
                 </div>
               </form>
